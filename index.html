@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html data-theme="dark" lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AbbVie Commercial Sites — Block &amp; Template Analysis</title>
+<style>
+/* ── CSS Custom Properties ── */
+:root {
+  --bg: #0f1117;
+  --surface: #1a1d27;
+  --surface2: #21253a;
+  --border: #2d3145;
+  --text: #e2e8f0;
+  --text-muted: #8892a4;
+  --accent: #6366f1;
+  --accent-hover: #818cf8;
+  --green: #22c55e;
+  --yellow: #eab308;
+  --red: #ef4444;
+  --amber: #f59e0b;
+  --indigo: #6366f1;
+  --radius: 8px;
+  --shadow: 0 2px 8px rgba(0,0,0,.4);
+}
+[data-theme="light"] {
+  --bg: #f1f5f9;
+  --surface: #ffffff;
+  --surface2: #f8fafc;
+  --border: #e2e8f0;
+  --text: #1e293b;
+  --text-muted: #64748b;
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; font-size: 14px; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); text-decoration: underline; }
+img { max-width: 100%; display: block; }
+
+/* ── Header ── */
+.site-header {
+  background: linear-gradient(135deg, #0f1117 0%, #1a1d27 50%, #0f1117 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 24px 32px;
+  position: relative;
+}
+[data-theme="light"] .site-header {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8e 50%, #1e3a5f 100%);
+}
+.header-inner { max-width: 1400px; margin: 0 auto; }
+.header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.header-title { color: #fff; font-size: 22px; font-weight: 700; letter-spacing: -.3px; }
+.header-subtitle { color: #94a3b8; font-size: 13px; margin-top: 4px; }
+.theme-toggle {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 13px;
+  white-space: nowrap;
+  transition: background .2s;
+}
+.theme-toggle:hover { background: var(--surface2); }
+.kpi-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.kpi-chip {
+  background: rgba(99,102,241,.15);
+  border: 1px solid rgba(99,102,241,.3);
+  color: #a5b4fc;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .2px;
+}
+[data-theme="light"] .kpi-chip { background: rgba(79,70,229,.1); border-color: rgba(79,70,229,.25); color: #4338ca; }
+
+/* ── Tabs ── */
+.tab-bar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 0 32px;
+}
+.tab-bar-inner { max-width: 1400px; margin: 0 auto; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.tab-bar-inner::-webkit-scrollbar { display: none; }
+.tab-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  padding: 14px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color .2s, border-color .2s;
+}
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ── Content ── */
+.content { max-width: 1400px; margin: 0 auto; padding: 32px; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── Badges ── */
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 2px 8px; border-radius: 4px;
+  font-size: 11px; font-weight: 600; letter-spacing: .3px;
+}
+.badge-common { background: rgba(99,102,241,.2); color: #a5b4fc; border: 1px solid rgba(99,102,241,.3); }
+.badge-custom  { background: rgba(245,158,11,.2); color: #fbbf24; border: 1px solid rgba(245,158,11,.3); }
+.badge-anti    { background: rgba(239,68,68,.2);  color: #fca5a5; border: 1px solid rgba(239,68,68,.3); }
+.badge-size-c  { background: rgba(239,68,68,.15); color: #fca5a5; }
+.badge-size-m  { background: rgba(234,179,8,.15); color: #fde047; }
+.badge-size-s  { background: rgba(34,197,94,.15); color: #86efac; }
+.badge-sites   { background: rgba(99,102,241,.12); color: var(--accent-hover); border: 1px solid rgba(99,102,241,.2); }
+.badge-p1 { background: rgba(239,68,68,.2); color: #fca5a5; }
+.badge-p2 { background: rgba(234,179,8,.2); color: #fde047; }
+.badge-p3 { background: rgba(34,197,94,.2); color: #86efac; }
+
+/* ── Block Cards ── */
+.blocks-toolbar { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; align-items: center; }
+.search-input {
+  flex: 1; min-width: 240px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  outline: none;
+  transition: border-color .2s;
+}
+.search-input:focus { border-color: var(--accent); }
+.filter-group { display: flex; gap: 8px; flex-wrap: wrap; }
+.filter-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+}
+.filter-btn:hover { border-color: var(--accent); color: var(--text); }
+.filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.blocks-grid { display: flex; flex-direction: column; gap: 16px; }
+.block-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.block-card:hover { border-color: var(--accent); }
+.block-card-inner { display: block; }
+.block-info { padding: 16px 20px; }
+.block-info-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+.block-name { font-size: 15px; font-weight: 700; color: var(--text); }
+.block-badges { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.block-eds-label { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+.block-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-bottom: 10px; }
+.variants-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--accent);
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s;
+}
+.variants-toggle:hover { background: rgba(99,102,241,.1); }
+
+.variants-section { overflow: hidden; max-height: 0; transition: max-height .3s ease; }
+.variants-section.open { max-height: 2000px; }
+.variants-table-wrap { border-top: 1px solid var(--border); padding: 16px 20px; background: var(--surface2); overflow-x: auto; }
+.variants-table { width: 100%; border-collapse: collapse; font-size: 11px; min-width: 600px; }
+.variants-table th { text-align: left; padding: 6px 10px; color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--border); text-transform: uppercase; letter-spacing: .5px; font-size: 10px; }
+.variants-table td { padding: 7px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.variants-table tr:last-child td { border-bottom: none; }
+.variants-table .dom-sig { font-family: monospace; font-size: 10px; color: #67e8f9; background: rgba(103,232,249,.08); padding: 2px 5px; border-radius: 3px; word-break: break-all; }
+[data-theme="light"] .variants-table .dom-sig { color: #0891b2; background: rgba(8,145,178,.08); }
+.no-results { text-align: center; padding: 48px; color: var(--text-muted); }
+
+/* ── Templates ── */
+.templates-section-header { font-size: 16px; font-weight: 700; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+.templates-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.template-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.template-card:hover { border-color: var(--accent); }
+.template-body { padding: 14px 16px; }
+.template-id { font-size: 10px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
+.template-label { font-size: 13px; font-weight: 700; margin: 2px 0 6px; }
+.template-pages { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
+.template-components { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+.template-component-tag { background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted); padding: 2px 6px; border-radius: 3px; font-size: 10px; }
+.template-notes { font-size: 11px; color: var(--text-muted); font-style: italic; line-height: 1.4; }
+
+/* ── Template Groups ── */
+.tg-grid { display: flex; flex-direction: column; gap: 12px; margin-bottom: 40px; }
+.tg-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.tg-card:hover { border-color: var(--accent); }
+.tg-header { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px 18px; cursor: pointer; user-select: none; }
+.tg-id { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; min-width: 36px; }
+.tg-name { font-size: 14px; font-weight: 700; flex: 1; }
+.tg-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; align-items: center; }
+.tg-desc { font-size: 12px; color: var(--text-muted); padding: 0 18px 10px; line-height: 1.5; }
+.tg-blocks { display: flex; flex-wrap: wrap; gap: 4px; padding: 0 18px 12px; }
+.tg-block-tag { background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted); padding: 2px 7px; border-radius: 3px; font-size: 10px; }
+.tg-sites-section { border-top: 1px solid var(--border); background: var(--surface2); max-height: 0; overflow: hidden; transition: max-height .3s ease; }
+.tg-sites-section.open { max-height: 800px; }
+.tg-sites-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.tg-sites-table th { text-align: left; padding: 6px 12px; color: var(--text-muted); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .4px; border-bottom: 1px solid var(--border); }
+.tg-sites-table td { padding: 6px 12px; border-bottom: 1px solid var(--border); }
+.tg-sites-table tr:last-child td { border-bottom: none; }
+.tg-sites-table .site-name { font-family: monospace; font-size: 11px; }
+
+/* ── Per-Site Template Breakdown ── */
+.ps-grid { display: flex; flex-direction: column; gap: 10px; }
+.ps-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.ps-card.ps-blocked { opacity: 0.5; }
+.ps-header { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 12px 18px; cursor: pointer; user-select: none; }
+.ps-site-name { font-family: monospace; font-size: 13px; font-weight: 700; }
+.ps-archetype { font-size: 11px; color: var(--text-muted); }
+.ps-meta { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; align-items: center; }
+.ps-body { border-top: 1px solid var(--border); background: var(--surface2); max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+.ps-body.open { max-height: 2400px; }
+.ps-summary { display: flex; gap: 16px; padding: 10px 18px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.ps-summary-item { font-size: 11px; color: var(--text-muted); }
+.ps-summary-item strong { color: var(--text); }
+.ps-table-wrap { overflow-x: auto; }
+.ps-table { width: 100%; border-collapse: collapse; font-size: 11px; min-width: 640px; }
+.ps-table th { text-align: left; padding: 6px 10px; color: var(--text-muted); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .4px; border-bottom: 1px solid var(--border); background: var(--surface); white-space: nowrap; }
+.ps-table td { padding: 7px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.ps-table tr:last-child td { border-bottom: none; }
+.ps-table .tid { font-weight: 700; color: var(--text-muted); font-size: 10px; white-space: nowrap; }
+.ps-table .tname { font-weight: 600; }
+.ps-table .tpages { text-align: center; font-weight: 700; color: var(--accent-hover); }
+.ps-table .tblocks { display: flex; flex-wrap: wrap; gap: 3px; }
+.ps-table .tb { background: var(--surface); border: 1px solid var(--border); color: var(--text-muted); padding: 1px 5px; border-radius: 3px; font-size: 10px; white-space: nowrap; }
+.ps-table .treason { font-size: 10px; color: var(--text-muted); font-style: italic; }
+.badge-yes    { background: rgba(34,197,94,.15);  color: #86efac; border: 1px solid rgba(34,197,94,.25); }
+.badge-partial{ background: rgba(234,179,8,.15);  color: #fde047; border: 1px solid rgba(234,179,8,.25); }
+.badge-no     { background: rgba(239,68,68,.15);  color: #fca5a5; border: 1px solid rgba(239,68,68,.25); }
+.tpage-list { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 4px; }
+.tpage-item { font-family: monospace; font-size: 9px; color: var(--text-muted); background: rgba(99,102,241,.07); border: 1px solid rgba(99,102,241,.15); padding: 1px 4px; border-radius: 2px; white-space: nowrap; }
+
+/* ── Other Sites Table ── */
+.section-heading { font-size: 15px; font-weight: 700; margin: 32px 0 12px; }
+.data-table-wrap { overflow-x: auto; }
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  min-width: 500px;
+}
+.data-table th {
+  text-align: left;
+  padding: 8px 12px;
+  background: var(--surface2);
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  border-bottom: 2px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+.data-table th:hover { color: var(--text); }
+.data-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.data-table tr:hover td { background: var(--surface2); }
+.data-table .monospace { font-family: monospace; font-size: 11px; }
+.data-table .na { color: var(--text-muted); font-style: italic; }
+.complexity-high   { color: #fca5a5; }
+.complexity-medium { color: #fde047; }
+.complexity-low    { color: #86efac; }
+.complexity-na     { color: var(--text-muted); }
+
+/* ── Overview ── */
+.overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 32px; }
+.overview-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+.overview-card-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--text-muted); margin-bottom: 12px; }
+.overview-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.overview-list li { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+.overview-list li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+.tier-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 16px; }
+.tier-card { background: var(--surface); border-radius: var(--radius); padding: 16px; }
+.tier-card.tier-1 { border-left: 3px solid var(--green); }
+.tier-card.tier-2 { border-left: 3px solid var(--yellow); }
+.tier-card.tier-3 { border-left: 3px solid var(--red); }
+.tier-card.tier-4 { border-left: 3px solid var(--text-muted); }
+.tier-title { font-size: 12px; font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: .4px; }
+.tier-1 .tier-title { color: var(--green); }
+.tier-2 .tier-title { color: var(--yellow); }
+.tier-3 .tier-title { color: var(--red); }
+.tier-4 .tier-title { color: var(--text-muted); }
+.tier-sites { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.tier-sites li { font-size: 11px; color: var(--text-muted); }
+.tier-sites strong { color: var(--text); font-family: monospace; }
+
+/* ── Integrations / Redirects ── */
+.section-desc { color: var(--text-muted); font-size: 12px; margin-bottom: 20px; line-height: 1.6; }
+.pattern-boxes { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.pattern-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+.pattern-box-title { font-size: 12px; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+.pattern-box-desc { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
+.pattern-box-code { font-family: monospace; font-size: 10px; background: var(--surface2); padding: 4px 8px; border-radius: 3px; display: inline-block; margin-top: 6px; color: #67e8f9; }
+
+.summary-kpi-row { display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0 32px; }
+.summary-kpi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 20px;
+  text-align: center;
+  min-width: 140px;
+}
+.summary-kpi-val { font-size: 24px; font-weight: 800; color: var(--accent); }
+.summary-kpi-label { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .content { padding: 16px; }
+  .site-header { padding: 16px; }
+  .overview-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ HEADER ═══════════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-top">
+      <div>
+        <div class="header-title">AbbVie Commercial Sites — Block &amp; Template Analysis</div>
+        <div class="header-subtitle">30 Sites · DOM-Inspected · Analyzed 2026-06-26</div>
+      </div>
+      <button class="theme-toggle" onclick="toggleTheme()">☀ Light</button>
+    </div>
+    <div class="kpi-row">
+      <span class="kpi-chip">30 Sites</span>
+      <span class="kpi-chip">28 Analyzed</span>
+      <span class="kpi-chip">~530 Real Pages</span>
+      <span class="kpi-chip">28 Block Types</span>
+      <span class="kpi-chip">8 Anti-EDS Patterns</span>
+      <span class="kpi-chip">7 Custom Blocks Required</span>
+      <span class="kpi-chip">33 Platform C Components</span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════ TAB BAR ═══════════════════════ -->
+<nav class="tab-bar">
+  <div class="tab-bar-inner">
+    <button class="tab-btn active" onclick="showTab('overview', this)">Overview</button>
+    <button class="tab-btn" onclick="showTab('blocks', this)">Blocks (28)</button>
+    <button class="tab-btn" onclick="showTab('templates', this)">Templates</button>
+    <button class="tab-btn" onclick="showTab('integrations', this)">Integrations</button>
+    <button class="tab-btn" onclick="showTab('redirects', this)">Redirects</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════ CONTENT ═══════════════════════ -->
+<main class="content">
+
+<!-- ───────── OVERVIEW TAB ───────── -->
+<section id="tab-overview" class="tab-panel active">
+  <div class="overview-grid">
+    <div class="overview-card">
+      <div class="overview-card-title">Common EDS Blocks (13)</div>
+      <ul class="overview-list">
+        <li>Header — 5 variants, all 28 sites</li>
+        <li>Footer — 3 variants, all 28 sites</li>
+        <li>Rich Text — 4 variants, all 28 sites</li>
+        <li>Columns — 4 variants, all 28 sites</li>
+        <li>Hero (Background Container) — 4 variants, 22 sites</li>
+        <li>Video — 5 variants, 14 sites</li>
+        <li>Modal — 5 variants, all 28 sites</li>
+        <li>Fragment / Inline ISI — 4 variants, 12 sites</li>
+        <li>Search — 2 variants, 8 sites</li>
+        <li>Carousel — 2 variants, 3 sites</li>
+        <li>Tabs — 3 variants, 6 sites ⚠ Anti-EDS URL</li>
+        <li>Accordion — 3 variants, 6 sites</li>
+        <li>Form — 3 variants, 5 sites</li>
+      </ul>
+    </div>
+    <div class="overview-card">
+      <div class="overview-card-title">Custom Blocks Required (7)</div>
+      <ul class="overview-list">
+        <li><span class="badge badge-p1">P1</span> &nbsp;Image-Text Block — 20+ variants, ALL 28 sites</li>
+        <li><span class="badge badge-p1">P1</span> &nbsp;Safety Bar (ISI) — 4 variants, 7 HCP sites</li>
+        <li><span class="badge badge-p1">P1</span> &nbsp;Brand Explorer — 1 variant, rinvoqhcp only</li>
+        <li><span class="badge badge-p2">P2</span> &nbsp;Section Navigation — 1 variant, 2 sites</li>
+        <li><span class="badge badge-p2">P2</span> &nbsp;Promo Drawer — 1 variant, 2 sites</li>
+        <li><span class="badge badge-p2">P2</span> &nbsp;Breadcrumb — 1 variant, 8 sites</li>
+        <li><span class="badge badge-p3">P3</span> &nbsp;Dismiss Content Banner — 1 variant, 1 site</li>
+      </ul>
+    </div>
+    <div class="overview-card">
+      <div class="overview-card-title">Anti-EDS Patterns (8)</div>
+      <ul class="overview-list">
+        <li>abbv-tab-* Deep-Link URLs — 12 sites, ~120 phantom URLs</li>
+        <li>Brightcove SDK Raw Embed — 7 sites</li>
+        <li>HTML Container (raw inject) — 6 sites</li>
+        <li>Provider Locator (Google Maps) — 4 sites</li>
+        <li>Indication Swap (runtime) — 4 sites</li>
+        <li>Quick Poll API — 3 sites</li>
+        <li>AEM Forms (iframe) — 2 sites</li>
+        <li>Google reCAPTCHA — 2 sites</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="section-heading">Migration Prioritization</h2>
+  <div class="tier-grid">
+    <div class="tier-card tier-1">
+      <div class="tier-title">Tier 1 — Migrate First (Low Complexity)</div>
+      <ul class="tier-sites">
+        <li><strong>faceyourbackpain.com</strong> — 37 pages, rich-text + image-text</li>
+        <li><strong>psoriaticarthritisinfo.com</strong> — 21 pages, standard disease-ed</li>
+        <li><strong>lupronprostatecancer.com</strong> — 33 pages, standard patient-ed</li>
+        <li><strong>eczemaheadquarters.com</strong> — 53 pages, modulo social WOL</li>
+        <li><strong>latestagensclc.com</strong> — 8 pages, simple Rx</li>
+        <li><strong>lastacaft.com</strong> — 8 pages, simple Rx</li>
+      </ul>
+    </div>
+    <div class="tier-card tier-2">
+      <div class="tier-title">Tier 2 — Medium Complexity (needs custom blocks)</div>
+      <ul class="tier-sites">
+        <li><strong>rinvoqhcp.com</strong> — 35 pages, already analyzed</li>
+        <li><strong>venclexta.com</strong> — 45 pages, already analyzed</li>
+        <li><strong>psoriasis.com</strong> — 77 pages, needs quick-poll decision</li>
+        <li><strong>ra.com</strong> — 39 pages, Brightcove + quick-poll</li>
+        <li><strong>crohnsandcolitis.com</strong> — 34 pages, quick-poll decision</li>
+        <li><strong>nobsabouths.com</strong> — 38 pages, Brightcove embed decision</li>
+        <li><strong>usdermed.com</strong> — 31 pages, HCP gating decision</li>
+      </ul>
+    </div>
+    <div class="tier-card tier-3">
+      <div class="tier-title">Tier 3 — Custom Development Required</div>
+      <ul class="tier-sites">
+        <li><strong>beyondagutfeeling.com</strong> — indication-swap strategy needed</li>
+        <li><strong>emrelis.com</strong> — indication-swap strategy needed</li>
+        <li><strong>decnupaz.com</strong> — indication-swap strategy needed</li>
+        <li><strong>savewithays.com</strong> — AEM Forms replacement needed</li>
+        <li><strong>skyrizilocator.com</strong> — locator replacement strategy</li>
+        <li><strong>amlexpertconnect.com</strong> — locator replacement strategy</li>
+      </ul>
+    </div>
+    <div class="tier-card tier-4">
+      <div class="tier-title">Tier 4 — Inaccessible / Blocked</div>
+      <ul class="tier-sites">
+        <li><strong>durysta.com</strong> — HTTP 403</li>
+        <li><strong>allergansavingscard.com</strong> — HTTP 403</li>
+        <li><strong>hcp.xengelstent.com</strong> — HTTP 0 (connection refused)</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="section-heading" style="margin-top: 32px;">EDS Blocks NOT Found on AbbVie Sites</h2>
+  <div class="data-table-wrap">
+    <table class="data-table">
+      <thead><tr><th>EDS Standard Block</th><th>Status</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Cards</td><td><span class="badge badge-anti">Not Found</span></td><td>No dedicated cards block — <code>abbv-image-text</code> used in card-like layouts instead</td></tr>
+        <tr><td>Embed</td><td><span class="badge badge-anti">Anti-EDS</span></td><td>Replaced by <code>abbv-embed-pro</code> (Brightcove SDK) — requires custom block</td></tr>
+        <tr><td>Quote</td><td><span class="badge badge-anti">Not Found</span></td><td>No dedicated quote component found across all 30 sites</td></tr>
+        <tr><td>Table</td><td><span class="badge badge-custom">Inline Only</span></td><td>Tables embedded inside <code>abbv-rich-text</code> — recommend dedicated Table block for EDS</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ───────── BLOCKS TAB ───────── -->
+<section id="tab-blocks" class="tab-panel">
+  <div class="blocks-toolbar">
+    <input type="text" class="search-input" id="blockSearch" placeholder="Search blocks, DOM signatures, site names..." oninput="filterBlocks()">
+    <div class="filter-group">
+      <button class="filter-btn active" onclick="setFilter('all', this)">All (28)</button>
+      <button class="filter-btn" onclick="setFilter('common', this)">Common EDS (13)</button>
+      <button class="filter-btn" onclick="setFilter('custom', this)">Custom Required (7)</button>
+      <button class="filter-btn" onclick="setFilter('anti-eds', this)">Anti-EDS (8)</button>
+    </div>
+  </div>
+  <div class="blocks-grid" id="blocksGrid"></div>
+  <div class="no-results" id="noResults" style="display:none">No blocks match your search.</div>
+</section>
+
+<!-- ───────── TEMPLATES TAB ───────── -->
+<section id="tab-templates" class="tab-panel">
+
+  <!-- ── Template Archetype Groups ── -->
+  <div class="templates-section-header">
+    <span>Template Archetypes — All 30 Sites</span>
+    <span class="badge badge-common" style="font-size:12px;">14 Groups · ~530 Real Pages</span>
+  </div>
+  <p style="font-size:12px;color:var(--text-muted);margin-bottom:20px;">Templates grouped by page archetype across all 30 sites. Click any group to see which sites use it and their local template IDs. Same archetype = same block set, same EDS authoring pattern.</p>
+  <div class="tg-grid" id="tgGrid"></div>
+
+  <!-- ── Per-Site Template Breakdown (All 30 Sites) ── -->
+  <div class="templates-section-header" style="margin-top:40px;">
+    <span>Per-Site Template Breakdown — All 30 Sites</span>
+    <span class="badge badge-common" style="font-size:12px;">Click any site to expand templates</span>
+  </div>
+  <p style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">Each site lists its templates with: pages per template (= migration batch size), recommended EDS blocks, complexity, and whether it can be authored with the identified block set. ✅ Yes = fully authorable · ⚠️ Partial = authorable with workaround · ❌ No = requires Anti-EDS resolution first.</p>
+  <div class="ps-grid" id="allSitesContainer"></div>
+</section>
+
+<!-- ───────── INTEGRATIONS TAB ───────── -->
+<section id="tab-integrations" class="tab-panel">
+  <p class="section-desc">Third-party integrations found via live DOM inspection across all 28 accessible sites. These represent dependencies that must be evaluated before EDS migration.</p>
+
+  <h2 class="section-heading">Third-Party Integrations</h2>
+  <div class="data-table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Integration</th><th>Sites Count</th><th>Sites</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Brightcove Video SDK</strong></td><td>7</td><td class="monospace">ra.com, nobsabouths.com, durystahcp.com, usdermed.com, beyondagutfeeling.com, rinvoqhcp.com, venclexta.com</td><td>Brightcove account required, player embed code, CDN</td></tr>
+        <tr><td><strong>YouTube Embed</strong></td><td>1</td><td class="monospace">rheumfordialogue.abbvie.com</td><td>4 YouTube video iframes (3-part video series + bonus)</td></tr>
+        <tr><td><strong>Google Maps API</strong></td><td>4</td><td class="monospace">skyrizilocator.com, amlexpertconnect.com, psoriasis.com, ra.com</td><td>Google Maps JavaScript API + Places API required</td></tr>
+        <tr><td><strong>Google reCAPTCHA</strong></td><td>2</td><td class="monospace">skyrizilocator.com, amlexpertconnect.com</td><td>v2 reCAPTCHA on locator forms</td></tr>
+        <tr><td><strong>AbbVie Provider Database API</strong></td><td>2</td><td class="monospace">skyrizilocator.com, amlexpertconnect.com</td><td>Proprietary AbbVie API endpoint for provider search</td></tr>
+        <tr><td><strong>OneTrust Cookie Consent</strong></td><td>28</td><td class="monospace">All 28 accessible sites</td><td>Universal — <code>ot-sdk-show-settings</code> in all footers</td></tr>
+        <tr><td><strong>Adobe Analytics / DTM</strong></td><td>28</td><td class="monospace">All 28 sites (inferred)</td><td>Standard AbbVie tagging implementation</td></tr>
+        <tr><td><strong>Brightcove Video Playlist API</strong></td><td>1</td><td class="monospace">beyondagutfeeling.com</td><td><code>abbv-video-playlist</code> component (playlist navigation)</td></tr>
+        <tr><td><strong>Quick Poll API</strong></td><td>3</td><td class="monospace">psoriasis.com, ra.com, crohnsandcolitis.com</td><td>Proprietary AbbVie poll endpoint — stores responses server-side</td></tr>
+        <tr><td><strong>FDA MedWatch External Link</strong></td><td>~15</td><td class="monospace">All HCP/Rx sites</td><td>WOL modal links to fda.gov/medwatch — standard pharma pattern</td></tr>
+        <tr><td><strong>AbbVie DSRM (Privacy Choices)</strong></td><td>28</td><td class="monospace">All 28 sites</td><td><code>abbviemetadata.my.site.com/AbbvieDSRM</code> in all footers</td></tr>
+        <tr><td><strong>Allergan EyeCue</strong></td><td>2</td><td class="monospace">durystahcp.com, durystasavingsprogram.com</td><td>HCP ordering system — WOL exit modal links to allerganeyecue.com</td></tr>
+        <tr><td><strong>AllerganDirect</strong></td><td>1</td><td class="monospace">durystahcp.com</td><td>HCP ordering system — durysta.allergandirect.com</td></tr>
+        <tr><td><strong>Social Media Exit Modals</strong></td><td>4</td><td class="monospace">eczemaheadquarters.com, ra.com, nobsabouths.com, psoriasis.com</td><td>Facebook, Instagram, TikTok, YouTube WOL exit disclaimers</td></tr>
+        <tr><td><strong>RheumKit Assessment Tool</strong></td><td>1</td><td class="monospace">ra.com</td><td>External RAPID3 survey tool — rheumakit.com</td></tr>
+        <tr><td><strong>Global Healthy Living Foundation</strong></td><td>1</td><td class="monospace">rheumfordialogue.abbvie.com</td><td>Patient assessment tool — external partnership</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="section-heading" style="margin-top:32px;">Forms by Site</h2>
+  <div class="data-table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Form Type</th><th>Site</th><th>Technology</th><th>EDS Replacement Path</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Savings Enrollment Form</strong></td><td class="monospace">savewithays.com</td><td>AEM Forms (iframe)</td><td>EDS Forms + backend API replatforming</td></tr>
+        <tr><td><strong>Doctor Discussion Guide</strong></td><td class="monospace">eczemaheadquarters.com</td><td>AEM Forms or external</td><td>EDS Forms</td></tr>
+        <tr><td><strong>Provider Locator Form</strong></td><td class="monospace">skyrizilocator.com</td><td><code>abbv-find-a-provider</code> (custom + maps)</td><td>External locator service or custom EDS block</td></tr>
+        <tr><td><strong>AML Specialist Finder Form</strong></td><td class="monospace">amlexpertconnect.com</td><td><code>abbv-find-a-provider</code></td><td>External locator service</td></tr>
+        <tr><td><strong>Email Sign-Up Form</strong></td><td class="monospace">ra.com, eczemaheadquarters.com</td><td>AbbVie proprietary email platform</td><td>EDS Forms → Marketo / AEP</td></tr>
+        <tr><td><strong>Patient Assessment Tool</strong></td><td class="monospace">rheumfordialogue.abbvie.com</td><td>External (Global Healthy Living Foundation)</td><td>Embed as Fragment or external link</td></tr>
+        <tr><td><strong>Rebate Claim Form</strong></td><td class="monospace">completerebate.com</td><td>External <code>patient.completerebate.com</code></td><td>External link (not embedded)</td></tr>
+        <tr><td><strong>VEN-Zone Sign-Up</strong></td><td class="monospace">venclexta.com</td><td>Email sign-up form (HTML container)</td><td>EDS Forms</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ───────── REDIRECTS TAB ───────── -->
+<section id="tab-redirects" class="tab-panel">
+  <h2 class="section-heading">URL Inflation Analysis</h2>
+  <p class="section-desc">Discovered URLs vs actual real pages. ~150 non-real URLs inflate the apparent page count by ~22%, driven by 3 distinct anti-EDS patterns.</p>
+
+  <div class="summary-kpi-row">
+    <div class="summary-kpi"><div class="summary-kpi-val">~677</div><div class="summary-kpi-label">Total Discovered URLs</div></div>
+    <div class="summary-kpi"><div class="summary-kpi-val">~530</div><div class="summary-kpi-label">Real / Unique Pages</div></div>
+    <div class="summary-kpi"><div class="summary-kpi-val">~147</div><div class="summary-kpi-label">Phantom URLs</div></div>
+    <div class="summary-kpi"><div class="summary-kpi-val">22%</div><div class="summary-kpi-label">URL Inflation Rate</div></div>
+    <div class="summary-kpi"><div class="summary-kpi-val">3</div><div class="summary-kpi-label">Inaccessible Sites</div></div>
+  </div>
+
+  <div class="pattern-boxes">
+    <div class="pattern-box">
+      <div class="pattern-box-title">Pattern A — abbv-tab-* Deep-Link URLs</div>
+      <div class="pattern-box-desc">AbbVie's tab component auto-generates anchor URLs for each tab. These appear in XML sitemaps but return 404 on direct navigation. Affects 12 sites, ~120 phantom URLs.</div>
+      <div class="pattern-box-code">abbv-tab-XXXXXXXXXX-0, abbv-tab-XXXXXXXXXX-1…</div>
+    </div>
+    <div class="pattern-box">
+      <div class="pattern-box-title">Pattern B — URL-Doubled Paths</div>
+      <div class="pattern-box-desc">Sites hcp.xengelstent.com and savewithays.com have sitemap entries where the hostname is repeated in the path (e.g. <code>site.com/site.com/page-path</code>). All return 404.</div>
+      <div class="pattern-box-code">hcp.xengelstent.com/hcp.xengelstent.com/…</div>
+    </div>
+    <div class="pattern-box">
+      <div class="pattern-box-title">Pattern C — AEM Fragment Pages</div>
+      <div class="pattern-box-desc">durystahcp.com has <code>/site-modols/*</code> paths in the sitemap. These are AEM Sling component fragment pages, not real content pages authored for end-users.</div>
+      <div class="pattern-box-code">/site-modols/jcr:content/…</div>
+    </div>
+  </div>
+
+  <div class="data-table-wrap">
+    <table class="data-table" id="redirectsTable">
+      <thead>
+        <tr>
+          <th onclick="sortTable('redirectsTable',0)">Site ↕</th>
+          <th onclick="sortTable('redirectsTable',1)">Discovered URLs ↕</th>
+          <th onclick="sortTable('redirectsTable',2)">Real Pages ↕</th>
+          <th onclick="sortTable('redirectsTable',3)">Inflated by ↕</th>
+          <th>Pattern</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="monospace">rinvoqhcp.com</td><td>43</td><td>35</td><td><strong>8</strong></td><td>Pattern A — abbv-tab-* deep-links (8)</td></tr>
+        <tr><td class="monospace">venclexta.com</td><td>~53</td><td>~45</td><td><strong>~8</strong></td><td>Redirects + old paths</td></tr>
+        <tr><td class="monospace">crohnsandcolitis.com</td><td>67</td><td>34</td><td><strong>33</strong></td><td>Pattern A — abbv-tab-* deep-links (33)</td></tr>
+        <tr><td class="monospace">nobsabouths.com</td><td>73</td><td>38</td><td><strong>35</strong></td><td>Pattern A — abbv-tab-* deep-links (35)</td></tr>
+        <tr><td class="monospace">hsdiseasesource.com</td><td>53</td><td>19</td><td><strong>34</strong></td><td>Pattern A — abbv-tab-* (34) + AEM-generated pages</td></tr>
+        <tr><td class="monospace">psoriasis.com</td><td>81</td><td>77</td><td><strong>4</strong></td><td>Pattern A — abbv-tab-* deep-links (4)</td></tr>
+        <tr><td class="monospace">faceyourbackpain.com</td><td>44</td><td>37</td><td><strong>7</strong></td><td>Pattern A — abbv-tab-* (7) + old redirects</td></tr>
+        <tr><td class="monospace">burdenofad.com</td><td>15</td><td>7</td><td><strong>8</strong></td><td>Pattern A — abbv-tab-* deep-links (8)</td></tr>
+        <tr><td class="monospace">hcp.xengelstent.com</td><td>22</td><td>11</td><td><strong>11</strong></td><td>Pattern B — URL-doubled paths (11)</td></tr>
+        <tr><td class="monospace">savewithays.com</td><td>14</td><td>8</td><td><strong>6</strong></td><td>Pattern B — URL-doubled paths (6)</td></tr>
+        <tr><td class="monospace">durystahcp.com</td><td>25</td><td>13</td><td><strong>12</strong></td><td>Pattern A — abbv-tab-* (3) + Pattern C — AEM fragments (9)</td></tr>
+        <tr><td class="monospace">durystasavingsprogram.com</td><td>5</td><td>2</td><td><strong>3</strong></td><td>Pattern A — abbv-tab-* deep-links (3)</td></tr>
+        <tr><td class="monospace">rheumfordialogue.abbvie.com</td><td>8</td><td>2</td><td><strong>6</strong></td><td>Pattern A — abbv-tab-* deep-links (6)</td></tr>
+        <tr><td class="monospace">ra.com</td><td>43</td><td>39</td><td><strong>4</strong></td><td>Old redirects</td></tr>
+        <tr><td class="monospace">eczemaheadquarters.com</td><td>58</td><td>53</td><td><strong>5</strong></td><td>Old redirects</td></tr>
+        <tr style="font-weight:700;background:var(--surface2)"><td>TOTALS</td><td>~677</td><td>~530</td><td><strong>~147</strong></td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="section-heading" style="margin-top:32px;">Recommendation</h2>
+  <p class="section-desc">Before starting page-by-page migration, run sitemap validation on each site to identify and exclude abbv-tab-* deep-link 404s. This alone reduces the apparent page count from ~680 to ~530 real pages — a 22% reduction in scope.</p>
+
+  <h2 class="section-heading">Per-Site Complexity Summary</h2>
+  <div class="data-table-wrap">
+    <table class="data-table" id="complexityTable">
+      <thead>
+        <tr>
+          <th onclick="sortTable('complexityTable',0)">Site ↕</th>
+          <th>Type</th>
+          <th onclick="sortTable('complexityTable',2)">Real Pages ↕</th>
+          <th>Key Blocks</th>
+          <th>Anti-EDS Patterns</th>
+          <th>Complexity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="monospace">rinvoqhcp.com</td><td>HCP Rx</td><td>35</td><td>header-v2, image-text, safety-bar, inline-isi, accordion, video, tabs</td><td>abbv-tab-* (8), abbv-embed-pro, abbv-safety-bar</td><td class="complexity-medium">Medium</td></tr>
+        <tr><td class="monospace">venclexta.com</td><td>Patient Rx</td><td>45</td><td>header-v2, image-text, tabs, video, accordion, search</td><td>abbv-tabs, some redirects</td><td class="complexity-medium">Medium</td></tr>
+        <tr><td class="monospace">skyrizilocator.com</td><td>HCP Locator</td><td>2</td><td>header, find-a-provider, safety-bar, inline-isi</td><td>abbv-find-a-provider, reCAPTCHA, abbv-safety-bar</td><td class="complexity-high">High</td></tr>
+        <tr><td class="monospace">lupronprostatecancer.com</td><td>Patient Rx</td><td>33</td><td>header, image-text, rich-text, background-container</td><td>minimal</td><td class="complexity-low">Low</td></tr>
+        <tr><td class="monospace">durystasavingsprogram.com</td><td>Savings</td><td>2</td><td>header, image-text-v2, inline-isi, safety-bar</td><td>abbv-safety-bar</td><td class="complexity-medium">Medium</td></tr>
+        <tr><td class="monospace">durysta.com</td><td>Patient Rx</td><td class="na">—</td><td class="na">— (403)</td><td class="na">—</td><td class="complexity-na">N/A</td></tr>
+        <tr><td class="monospace">durystahcp.com</td><td>HCP Rx</td><td>13</td><td>header, image-text-v2, flex-container, safety-bar, promo-drawer, inline-isi</td><td>abbv-embed-pro, promo-drawer, safety-bar, HCP-gate</td><td class="complexity-high">High</td></tr>
+        <tr><td class="monospace">emrelis.com</td><td>Patient Rx</td><td>4</td><td>header-v2, indication-swap, image-text, rich-text</td><td>abbv-indication-swap</td><td class="complexity-high">High</td></tr>
+        <tr><td class="monospace">hcp.xengelstent.com</td><td>HCP Device</td><td class="na">11</td><td class="na">— (HTTP 0)</td><td class="na">—</td><td class="complexity-na">N/A</td></tr>
+        <tr><td class="monospace">crohnsandcolitis.com</td><td>Disease Ed</td><td>34</td><td>header, image-text, quick-poll, background-container</td><td>abbv-quick-poll, abbv-tab-* (33)</td><td class="complexity-medium">Medium</td></tr>
+        <tr><td class="monospace">faceyourbackpain.com</td><td>Disease Ed</td><td>37</td><td>header, image-text, rich-text, background-container</td><td>abbv-tab-* (7)</td><td class="complexity-low">Low</td></tr>
+        <tr><td class="monospace">hsdiseasesource.com</td><td>Disease Ed</td><td>19</td><td>header, image-text, rich-text</td><td>abbv-tab-* (34), AEM-generated pages</td><td class="complexity-medium">Medium</td></tr>
+        <tr><td class="monospace">nobsabouths.com</td><td>Disease Ed</td><td>38</td><td>header, image-text, link-list, embed-pro, html-container</td><td>abbv-embed-pro, html-container, abbv-tab-* (35)</td><td class="complexity-medium">Medium</td></tr>
+        <tr><td class="monospace">psoriaticarthritisinfo.com</td><td>Disease Ed</td><td>21</td><td>header, image-text, rich-text</td><td>minimal</td><td class="complexity-low">Low</td></tr>
+        <tr><td class="monospace">psoriasis.com</td><td>Disease Ed</td><td>77</td><td>header, image-text, quick-poll, find-a-provider, search</td><td>abbv-quick-poll, abbv-find-a-provider</td><td class="complexity-medium">Medium</td></tr>
+        <tr><td class="monospace">ra.com</td><td>Disease Ed</td><td>39</td><td>header-v2, image-text-v2, flex-container, video, quick-poll, embed-pro, search</td><td>abbv-quick-poll, abbv-embed-pro, html-container</td><td class="complexity-medium">Medium</td></tr>
+        <tr><td class="monospace">eczemaheadquarters.com</td><td>Disease Ed</td><td>53</td><td>header, image-text, modal (social WOL), search</td><td>social WOL modals (FB/TikTok/IG)</td><td class="complexity-low">Low</td></tr>
+        <tr><td class="monospace">latestagensclc.com</td><td>Patient Rx</td><td>8</td><td>header, image-text, rich-text</td><td>minimal</td><td class="complexity-low">Low</td></tr>
+        <tr><td class="monospace">lastacaft.com</td><td>Patient Rx</td><td>8</td><td>header, image-text, rich-text</td><td>minimal</td><td class="complexity-low">Low</td></tr>
+        <tr><td class="monospace">burdenofad.com</td><td>Disease Ed</td><td>7</td><td>header, image-text, rich-text</td><td>abbv-tab-* (8)</td><td class="complexity-low">Low</td></tr>
+        <tr><td class="monospace">amlexpertconnect.com</td><td>HCP Locator</td><td>1</td><td>header, find-a-provider, reCAPTCHA</td><td>abbv-find-a-provider, reCAPTCHA</td><td class="complexity-high">High</td></tr>
+        <tr><td class="monospace">completerebate.com</td><td>Savings</td><td>2</td><td>flex-container-v2, image-text-v2, modal (ISI), rich-text</td><td>minimal</td><td class="complexity-low">Low</td></tr>
+        <tr><td class="monospace">allergansavingscard.com</td><td>Savings</td><td class="na">—</td><td class="na">— (403)</td><td class="na">—</td><td class="complexity-na">N/A</td></tr>
+        <tr><td class="monospace">savewithays.com</td><td>Savings</td><td>8</td><td>header-v2, flex-container, image-text-v2, modal, video, AEM form</td><td>AEM form (iframe), URL-doubling</td><td class="complexity-medium">Medium</td></tr>
+        <tr><td class="monospace">rheumfordialogue.abbvie.com</td><td>Disease Ed</td><td>2</td><td>header-v2, carousel, tabs, YouTube iframes, image-text-v2, embed-pro</td><td>YouTube embeds, abbv-tabs, abbv-embed-pro</td><td class="complexity-medium">Medium</td></tr>
+        <tr><td class="monospace">usdermed.com</td><td>HCP Ed</td><td>31</td><td>header-v2-lite, flex-container-v2, image-text-v2, video, HCP-gate</td><td>HCP gating modal, video modal</td><td class="complexity-high">High</td></tr>
+        <tr><td class="monospace">decnupaz.com</td><td>Patient Rx</td><td>6</td><td>header-v2, indication-swap, image-text, tabs</td><td>abbv-indication-swap, abbv-tabs</td><td class="complexity-high">High</td></tr>
+        <tr><td class="monospace">beyondagutfeeling.com</td><td>HCP Ed</td><td>1</td><td>header-v2, image-text-v2, flex-container-v2, video+playlist, indication-swap</td><td>abbv-indication-swap, video playlist, abbv-embed-pro</td><td class="complexity-high">High</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+</main>
+
+<script>
+// ═══════════════════════ DATA ═══════════════════════
+
+const BLOCK_DATA = [
+  {
+    id: 1, name: "Header", edsBlock: "Header", category: "common", size: "C", sitesCount: 28, totalSites: 28,
+    description: "Sitewide navigation with primary nav (indication dropdowns), utility nav, search toggle, and full-safety link. Multi-level mega-menu, sticky scroll behaviour, mobile hamburger.",
+    screenshot: "../rinvoqhcp/screenshots/blocks/Site%20Header.png",
+    variants: [
+      { id: "V1", label: "Classic v1", domSig: "abbv-header abbv-header-primary-navigation", sites: "durystahcp.com, lupronprostatecancer.com, durystasavingsprogram.com, lastacaft.com, latestagensclc.com", ref: "https://www.durystahcp.com" },
+      { id: "V2", label: "v2 Sticky Full Nav", domSig: "abbv-header-v2 abbv-sticky search-box-classic", sites: "rinvoqhcp.com, venclexta.com, crohnsandcolitis.com, ra.com, psoriasis.com, nobsabouths.com, beyondagutfeeling.com, usdermed.com, emrelis.com", ref: "https://www.rinvoqhcp.com" },
+      { id: "V3", label: "v2 Lite (minimal)", domSig: "abbv-header-v2 abbv-header-v2-lite", sites: "venclexta.com, usdermed.com, savewithays.com", ref: "https://www.venclexta.com" },
+      { id: "V4", label: "Indication Swap Header", domSig: "abbv-header-v2 abbv-indication-swap", sites: "rheumfordialogue.abbvie.com, decnupaz.com, beyondagutfeeling.com", ref: "https://rheumfordialogue.abbvie.com" },
+      { id: "V5", label: "Allergan AYS Branded", domSig: "abbv-header-v2 allergan-ays-header", sites: "savewithays.com", ref: "https://www.savewithays.com" }
+    ]
+  },
+  {
+    id: 2, name: "Footer", edsBlock: "Footer", category: "common", size: "S", sitesCount: 28, totalSites: 28,
+    description: "Multi-column footer with brand logo, indication links, legal disclaimers, ISI link, social links. Horizontal legal bar separator variant.",
+    screenshot: "../rinvoqhcp/screenshots/blocks/Site%20Footer.png",
+    variants: [
+      { id: "V1", label: "Horizontal Legal Bar", domSig: "abbv-footer abbv-footer-horizontal", sites: "rinvoqhcp.com, venclexta.com, psoriasis.com, ra.com, most sites", ref: "https://www.rinvoqhcp.com" },
+      { id: "V2", label: "Vertical Column Footer", domSig: "abbv-footer abbv-footer-vertical", sites: "usdermed.com, rheumfordialogue.abbvie.com", ref: "https://usdermed.com" },
+      { id: "V3", label: "Allergan AYS Footer v2", domSig: "abbv-footer footer-ays footer-v2", sites: "savewithays.com", ref: "https://www.savewithays.com" }
+    ]
+  },
+  {
+    id: 3, name: "Rich Text", edsBlock: "Rich Text", category: "common", size: "S", sitesCount: 28, totalSites: 28,
+    description: "Standard rich text region for body copy, callout boxes, footnotes, and formatted content. Pharma body copy with superscript references. Ubiquitous across all pages.",
+    screenshot: "../rinvoqhcp/screenshots/blocks/Rich%20Text%20Content.png",
+    variants: [
+      { id: "V1", label: "Body Copy (common)", domSig: "abbv-rich-text abbv-rich-text-common", sites: "All 28 sites", ref: "https://www.rinvoqhcp.com/rheumatology" },
+      { id: "V2", label: "Footnote / Legal", domSig: "abbv-rich-text abbv-legal-text", sites: "All sites with ISI", ref: "https://www.rinvoqhcp.com" },
+      { id: "V3", label: "Eyebrow Label", domSig: "abbv-eyebrow abbv-eyebrow-large", sites: "rinvoqhcp.com, venclexta.com", ref: "https://www.rinvoqhcp.com/rheumatology/dosing-lab-monitoring" },
+      { id: "V4", label: "Section Heading / Title", domSig: "abbv-title", sites: "All 28 sites", ref: "https://www.rinvoqhcp.com" }
+    ]
+  },
+  {
+    id: 4, name: "Columns", edsBlock: "Columns", category: "common", size: "S", sitesCount: 28, totalSites: 28,
+    description: "CSS flexbox/grid layout container for arranging child content blocks in rows and columns. Layout utility with no JS. Child items use abbv-flex-item / abbv-col.",
+    screenshot: "../rinvoqhcp/screenshots/blocks/Flex%20Layout%20Container.png",
+    variants: [
+      { id: "V1", label: "Grid Row/Col (2–4 col)", domSig: "abbv-row-container abbv-row abbv-col", sites: "All 28 sites", ref: "https://www.rinvoqhcp.com" },
+      { id: "V2", label: "Flex Container v1", domSig: "abbv-flex-container abbv-flex-item", sites: "rinvoqhcp.com, ra.com, eczemaheadquarters.com, psoriasis.com", ref: "https://www.ra.com" },
+      { id: "V3", label: "Flex Container v2", domSig: "abbv-flex-container-v2 abbv-flex-item-v2 flexbox-v2", sites: "durystahcp.com, beyondagutfeeling.com, completerebate.com, usdermed.com", ref: "https://www.durystahcp.com" },
+      { id: "V4", label: "Flex Row Flush (Full Bleed)", domSig: "abbv-row abbv-row-flush abbv-col-flush-6", sites: "rheumfordialogue.abbvie.com, venclexta.com", ref: "https://venclexta.com" }
+    ]
+  },
+  {
+    id: 5, name: "Hero (Background Container)", edsBlock: "Hero", category: "common", size: "M", sitesCount: 22, totalSites: 28,
+    description: "Section with full-bleed background image that swaps per indication or breakpoint. Wraps other content blocks. Multiple colour/image background variants.",
+    screenshot: "../rinvoqhcp/screenshots/blocks/Background%20Container.png",
+    variants: [
+      { id: "V1", label: "Solid Color BG", domSig: "abbv-background-container abbv-bg-color-blue", sites: "completerebate.com, rinvoqhcp.com, venclexta.com, most sites", ref: "https://www.rinvoqhcp.com" },
+      { id: "V2", label: "Full-Bleed Background Image", domSig: "abbv-background-container abbv-background-container-image-bg", sites: "rinvoqhcp.com, venclexta.com, durystahcp.com, crohnsandcolitis.com", ref: "https://www.rinvoqhcp.com/atopic-dermatitis" },
+      { id: "V3", label: "Indication Image Swap BG", domSig: "abbv-background-container abbv-background-container-image-swap-bg", sites: "rinvoqhcp.com, venclexta.com", ref: "https://www.rinvoqhcp.com/rheumatology" },
+      { id: "V4", label: "Header Bar (accent stripe)", domSig: "abbv-background-container header-bar abbv-bg-color-blue", sites: "completerebate.com, savewithays.com", ref: "https://www.completerebate.com" }
+    ]
+  },
+  {
+    id: 6, name: "Video", edsBlock: "Video", category: "common", size: "M", sitesCount: 14, totalSites: 28,
+    description: "Embedded video with branded placeholder thumbnail, lazy load on click/intersection. Supports Brightcove (standard + Pro SDK) and YouTube.",
+    screenshot: "../rinvoqhcp/screenshots/blocks/Video%20Player.png",
+    variants: [
+      { id: "V1", label: "Brightcove Standard Embed", domSig: "abbv-video-player abbv-video-container abbv-embed", sites: "rinvoqhcp.com, venclexta.com, ra.com, nobsabouths.com", ref: "https://www.rinvoqhcp.com/mechanism-of-action" },
+      { id: "V2", label: "Brightcove Pro (MoA) Embed", domSig: "abbv-video-player abbv-embed-pro", sites: "venclexta.com, durystahcp.com, beyondagutfeeling.com, usdermed.com", ref: "https://www.venclexta.com/aml/how-it-works" },
+      { id: "V3", label: "Patient Story Video", domSig: "abbv-video-player abbv-video-content", sites: "venclexta.com, ra.com", ref: "https://www.venclexta.com/previously-untreated-cll/cll-stories" },
+      { id: "V4", label: "Brightcove Playlist", domSig: "abbv-video-player abbv-video-playlist", sites: "beyondagutfeeling.com", ref: "https://www.beyondagutfeeling.com" },
+      { id: "V5", label: "YouTube Inline Embed", domSig: "abbv-youtube-player youtube-container", sites: "rheumfordialogue.abbvie.com", ref: "https://rheumfordialogue.abbvie.com" }
+    ]
+  },
+  {
+    id: 7, name: "Modal", edsBlock: "Modal", category: "common", size: "S", sitesCount: 28, totalSites: 28,
+    description: "Lightbox modal for ISI content, reference overlays, WOL exit disclaimers. Standard show/hide with accessibility focus trap. Multiple content types.",
+    screenshot: "../rinvoqhcp/screenshots/blocks/Modal%20Dialog.png",
+    variants: [
+      { id: "V1", label: "WOL Exit Disclaimer", domSig: "abbv-modal wolOnLeave abbv-modal-content-container", sites: "All 28 sites", ref: "https://www.rinvoqhcp.com" },
+      { id: "V2", label: "ISI Modal (safety content)", domSig: "abbv-modal RinvoqISIModal", sites: "rinvoqhcp.com, completerebate.com, venclexta.com", ref: "https://www.completerebate.com" },
+      { id: "V3", label: "HCP Gate / Verification", domSig: "abbv-modal HCPWol js-must-interact", sites: "durystahcp.com, usdermed.com", ref: "https://www.durystahcp.com" },
+      { id: "V4", label: "Enrollment Form Modal", domSig: "abbv-modal enrollnow enrollnow-ays", sites: "savewithays.com", ref: "https://www.savewithays.com" },
+      { id: "V5", label: "Video Expand Modal", domSig: "abbv-modal demovideo", sites: "savewithays.com, rheumfordialogue.abbvie.com", ref: "https://www.savewithays.com" }
+    ]
+  },
+  {
+    id: 8, name: "Fragment / Inline ISI", edsBlock: "Fragment", category: "common", size: "M", sitesCount: 12, totalSites: 28,
+    description: "Inline safety text block for ISI and indication-specific use statements embedded in page content. Expand/collapse behaviour. Distinct from the floating Safety Bar.",
+    screenshot: "../rinvoqhcp/screenshots/blocks/Inline%20ISI%20-%20Safety%20References.png",
+    variants: [
+      { id: "V1", label: "Inline Safety (expandable ISI)", domSig: "abbv-inline-safety abbv-inline-use-isi", sites: "rinvoqhcp.com, venclexta.com, durystahcp.com, durystasavingsprogram.com, latestagensclc.com", ref: "https://www.rinvoqhcp.com" },
+      { id: "V2", label: "Inline Use Statement", domSig: "abbv-inline-use abbv-use-inline", sites: "venclexta.com, rinvoqhcp.com", ref: "https://www.venclexta.com/previously-untreated-cll/how-it-may-help" },
+      { id: "V3", label: "Misc ISI (supplemental)", domSig: "abbv-inline-miscisi", sites: "rinvoqhcp.com, venclexta.com", ref: "https://www.venclexta.com/previously-untreated-cll/possible-side-effects" },
+      { id: "V4", label: "CLL-Specific ISI Block", domSig: "abbv-cll-isi abbv-isi-inline abbv-isi-sublist", sites: "venclexta.com only", ref: "https://www.venclexta.com/previously-untreated-cll/possible-side-effects" }
+    ]
+  },
+  {
+    id: 9, name: "Search", edsBlock: "Search", category: "common", size: "M", sitesCount: 8, totalSites: 28,
+    description: "Site search with typeahead suggestions dropdown triggered from header. Keyboard navigation, ARIA search region. Inline search results page variant.",
+    screenshot: "../rinvoqhcp/screenshots/blocks/Search%20Overlay.png",
+    variants: [
+      { id: "V1", label: "Header Search Toggle", domSig: "abbv-search abbv-search-toggle abbv-search-suggestions", sites: "rinvoqhcp.com, venclexta.com, psoriasis.com, ra.com, eczemaheadquarters.com, usdermed.com", ref: "https://www.rinvoqhcp.com" },
+      { id: "V2", label: "Inline Search Results Page", domSig: "abbv-search-inline abbv-search-navigation", sites: "venclexta.com, rinvoqhcp.com", ref: "https://www.venclexta.com/search-results" }
+    ]
+  },
+  {
+    id: 10, name: "Carousel", edsBlock: "Carousel", category: "common", size: "M", sitesCount: 3, totalSites: 28,
+    description: "Image/content carousel with manual or auto navigation. Used for clinical data visualisation (H2H pages) and KOL video content.",
+    screenshot: "../rinvoqhcp/screenshots/blocks/Image%20Slider.png",
+    variants: [
+      { id: "V1", label: "Image/Content Carousel (owl)", domSig: "abbv-carousel owl-carousel owl-theme carousel-wrapper", sites: "rheumfordialogue.abbvie.com", ref: "https://rheumfordialogue.abbvie.com" },
+      { id: "V2", label: "Clinical Image Slider (H2H)", domSig: "abbv-img-slider", sites: "rinvoqhcp.com (H2H pages only)", ref: "https://www.rinvoqhcp.com/atopic-dermatitis/efficacy/rinvoq-vs-dupixent/level-up" }
+    ]
+  },
+  {
+    id: 11, name: "Tabs", edsBlock: "Tabs", category: "common", size: "M", sitesCount: 6, totalSites: 28,
+    description: "Tabbed navigation for clinical data panels, resource categories, and indication sub-sections. ⚠ Generates abbv-tab-* deep-link URLs that appear in sitemaps but return 404 — ~120 phantom URLs across 12 sites.",
+    screenshot: "../rinvoqhcp/screenshots/blocks/Tabs%20(Clinical%20Data).png",
+    variants: [
+      { id: "V1", label: "Multi-Group Tab Panel (Clinical)", domSig: "abbv-tabs abbv-tabs-container abbv-tabs-controls abbv-tab-link", sites: "rinvoqhcp.com (up to 6 groups/page), decnupaz.com", ref: "https://www.rinvoqhcp.com/atopic-dermatitis/efficacy" },
+      { id: "V2", label: "Centered Tab Panel", domSig: "abbv-tabs abbv-tabs--middle", sites: "rinvoqhcp.com (H2H pages), rheumfordialogue.abbvie.com", ref: "https://www.rinvoqhcp.com/atopic-dermatitis/efficacy/rinvoq-vs-dupixent/level-up" },
+      { id: "V3", label: "Resource Category Tabs", domSig: "abbv-tabs abbv-tabs-container", sites: "venclexta.com, crohnsandcolitis.com, hsdiseasesource.com, nobsabouths.com", ref: "https://www.venclexta.com/resources" }
+    ]
+  },
+  {
+    id: 12, name: "Accordion", edsBlock: "Accordion", category: "common", size: "M", sitesCount: 6, totalSites: 28,
+    description: "Expandable panels for safety content, study design details, and FAQ. Single-open and multi-open variants. Multi-open required for safety comparison.",
+    screenshot: "../rinvoqhcp/screenshots/blocks/Accordion%20(Content).png",
+    variants: [
+      { id: "V1", label: "Multi-Open Accordion (Safety)", domSig: "abbv-accordion abbv-accordion-multi", sites: "rinvoqhcp.com, venclexta.com", ref: "https://www.rinvoqhcp.com/rheumatology/safety" },
+      { id: "V2", label: "Single-Open Accordion (FAQ)", domSig: "abbv-accordion abbv-accordion-single", sites: "rinvoqhcp.com, venclexta.com", ref: "https://www.rinvoqhcp.com/gastroenterology/expert-insights" },
+      { id: "V3", label: "Multi-Panel Content Accordion", domSig: "abbv-accordion abbv-accordion-multi icon-support", sites: "rinvoqhcp.com, venclexta.com", ref: "https://www.rinvoqhcp.com/atopic-dermatitis/efficacy" }
+    ]
+  },
+  {
+    id: 13, name: "Form", edsBlock: "Form", category: "common", size: "M", sitesCount: 5, totalSites: 28,
+    description: "Form embeds for enrollment, patient registration, and rep contact. Mix of AEM Forms iframes, third-party embeds, and native HTML forms.",
+    screenshot: "../venclexta/screenshots/blocks/Registration%20Form%20Embed.png",
+    variants: [
+      { id: "V1", label: "AEM Enrollment Form (iframe)", domSig: "aemform iframe aemformcontainer", sites: "savewithays.com", ref: "https://www.savewithays.com" },
+      { id: "V2", label: "Patient Registration Form", domSig: "abbv-html-container registration-form", sites: "venclexta.com (/ven-zone-register)", ref: "https://www.venclexta.com/ven-zone-register" },
+      { id: "V3", label: "Contact / Rep Form", domSig: "abbv-html-container form-embed", sites: "rinvoqhcp.com (/contact-a-rep)", ref: "https://www.rinvoqhcp.com/contact-a-rep" }
+    ]
+  },
+  // ── Custom AbbVie Blocks ──
+  {
+    id: 14, name: "Image-Text Block", edsBlock: "Custom (P1 — MUST BUILD)", category: "custom", size: "M", sitesCount: 28, totalSites: 28,
+    description: "MOST IMPORTANT BLOCK — 20+ variants across all 28 sites. Split layout with image on one side and text + CTA on the other. Used for heroes, indication teasers, cards, and all primary content sections.",
+    screenshot: "../rinvoqhcp/screenshots/blocks/Image%20Text%20Block.png",
+    variants: [
+      { id: "V1", label: "Full-Width Hero (no split)", domSig: "abbv-image-text-v2 abbv-image-swap", sites: "rinvoqhcp.com, venclexta.com", ref: "https://www.rinvoqhcp.com" },
+      { id: "V2", label: "Split Image Left", domSig: "abbv-image-text-v2 abbv-image-scale", sites: "rinvoqhcp.com, venclexta.com, ra.com, psoriasis.com", ref: "https://www.rinvoqhcp.com/rheumatology" },
+      { id: "V3", label: "Split Image Right", domSig: "abbv-image-text-v2 abbv-image-text-content-container-v2", sites: "venclexta.com, rinvoqhcp.com, durystahcp.com", ref: "https://www.venclexta.com/aml" },
+      { id: "V4", label: "Stretched Card (full-card link)", domSig: "abbv-image-text-v2 abbv-stretched-link abbv-stretched-card-body", sites: "venclexta.com", ref: "https://www.venclexta.com/previously-untreated-cll/cll-stories" },
+      { id: "V5", label: "Logo Card (brand tile)", domSig: "abbv-image-text-v2 abbv-image-scale", sites: "completerebate.com, savewithays.com", ref: "https://www.completerebate.com" },
+      { id: "V6", label: "Icon Nav Tile", domSig: "ays-icon-nav abbv-image-text-v2", sites: "savewithays.com", ref: "https://www.savewithays.com" },
+      { id: "V7", label: "Dosing Ramp-Up Visual", domSig: "abbv-image-text-v2 abbv-image-swap", sites: "venclexta.com (dosing pages)", ref: "https://www.venclexta.com/previously-untreated-cll/dosing-schedule" },
+      { id: "V8", label: "Clinical Image Swap", domSig: "abbv-image-swap abbv-image-scale abbv-image-scale-modal", sites: "rinvoqhcp.com, venclexta.com", ref: "https://www.venclexta.com/previously-untreated-cll/how-it-may-help" },
+      { id: "V9", label: "Mobile-Only Variant", domSig: "abbv-image-text-v2 mobile-only", sites: "rheumfordialogue.abbvie.com", ref: "https://rheumfordialogue.abbvie.com" },
+      { id: "V10", label: "Desktop-Only Variant", domSig: "abbv-image-text-v2 desktop-only card-1", sites: "rheumfordialogue.abbvie.com", ref: "https://rheumfordialogue.abbvie.com" }
+    ]
+  },
+  {
+    id: 15, name: "Safety Bar", edsBlock: "Custom (P1 — MUST BUILD)", category: "custom", size: "C", sitesCount: 7, totalSites: 28,
+    description: "Floating pharmacovigilance safety bar with boxed warning, sticky to viewport bottom. Dual states: minimised (one-liner) and maximised (scrollable full ISI). Six content sub-regions for mobile/desktop. Pharma regulatory requirement.",
+    screenshot: "../rinvoqhcp/screenshots/blocks/ISI%20Safety%20Bar.png",
+    variants: [
+      { id: "V1", label: "Floating ISI Bar (Standard HCP)", domSig: "abbv-safety-bar abbv-safety-bar-content", sites: "rinvoqhcp.com, venclexta.com", ref: "https://www.rinvoqhcp.com" },
+      { id: "V2", label: "Floating ISI Bar (Oncology)", domSig: "abbv-safety-bar oncology-ISI-safety", sites: "durystahcp.com, durystasavingsprogram.com", ref: "https://www.durystasavingsprogram.com" },
+      { id: "V3", label: "Safety Bar Minimized (desktop)", domSig: "abbv-safety-bar-content abbv-safety-bar-content-minimized-desktop", sites: "All HCP sites", ref: "https://www.rinvoqhcp.com" },
+      { id: "V4", label: "Safety Bar Maximized (full ISI)", domSig: "abbv-safety-bar-content abbv-safety-bar-content-maximized", sites: "All HCP sites", ref: "https://www.venclexta.com" }
+    ]
+  },
+  {
+    id: 16, name: "Section Navigation", edsBlock: "Custom (P2)", category: "custom", size: "M", sitesCount: 2, totalSites: 28,
+    description: "Sticky in-page anchor navigation bar linking to major page sections. Horizontal scrollable pill-style nav, highlights active section on scroll. Used on efficacy and safety pages.",
+    screenshot: "../rinvoqhcp/screenshots/blocks/Section%20Navigation.png",
+    variants: [
+      { id: "V1", label: "Sticky Anchor Nav", domSig: "abbv-section-navigation abbv-section-navigation-container", sites: "rinvoqhcp.com", ref: "https://www.rinvoqhcp.com/atopic-dermatitis/efficacy" }
+    ]
+  },
+  {
+    id: 17, name: "Promo Drawer", edsBlock: "Custom (P2)", category: "custom", size: "M", sitesCount: 2, totalSites: 28,
+    description: "Dismissible slide-in side drawer for promotional content (enrollment CTAs, brand program links). Persists dismiss state via sessionStorage. Slide animation from right.",
+    screenshot: "../rinvoqhcp/screenshots/blocks/Promo%20Drawer.png",
+    variants: [
+      { id: "V1", label: "Slide-Out Right Drawer", domSig: "abbv-promo-drawer abbv-promo-drawer-handle", sites: "rinvoqhcp.com, durystahcp.com", ref: "https://www.rinvoqhcp.com/atopic-dermatitis" }
+    ]
+  },
+  {
+    id: 18, name: "Breadcrumb", edsBlock: "Custom (P2)", category: "custom", size: "S", sitesCount: 8, totalSites: 28,
+    description: "Auto-generated breadcrumb navigation showing page hierarchy path. Appears on inner pages of multi-level disease-education and HCP sites.",
+    screenshot: null,
+    variants: [
+      { id: "V1", label: "Auto-Generated Breadcrumb", domSig: "abbv-breadcrumb-navigation", sites: "rinvoqhcp.com, venclexta.com, psoriasis.com, ra.com, eczemaheadquarters.com, nobsabouths.com, usdermed.com, crohnsandcolitis.com", ref: "https://www.rinvoqhcp.com/rheumatology" }
+    ]
+  },
+  {
+    id: 19, name: "Brand Explorer", edsBlock: "Custom (P1 for rinvoqhcp)", category: "custom", size: "C", sitesCount: 1, totalSites: 28,
+    description: "Full-screen indication selector overlay drawer. Accordion sections per therapeutic area (Rheumatology, Dermatology, GI). Active indication highlight. Appears on every rinvoqhcp page via fragment.",
+    screenshot: "../rinvoqhcp/screenshots/blocks/Brand%20Explorer.png",
+    variants: [
+      { id: "V1", label: "Full-Screen Indication Overlay Drawer", domSig: "brandexplorer abbv-indication-swap", sites: "rinvoqhcp.com only", ref: "https://www.rinvoqhcp.com" }
+    ]
+  },
+  {
+    id: 20, name: "Dismiss Content Banner", edsBlock: "Custom (P3)", category: "custom", size: "S", sitesCount: 1, totalSites: 28,
+    description: "Full-width dismissible informational banner above main content. One-time dismiss via sessionStorage. Accent colour variants (accent-4).",
+    screenshot: "../rinvoqhcp/screenshots/blocks/Dismiss%20Content%20Banner.png",
+    variants: [
+      { id: "V1", label: "Dismissible Accent Banner", domSig: "abbv-dismiss-content abbv-dismiss-content--accent-4", sites: "rinvoqhcp.com", ref: "https://www.rinvoqhcp.com/atopic-dermatitis" }
+    ]
+  },
+  // ── Anti-EDS Patterns ──
+  {
+    id: 21, name: "Brightcove SDK Embed", edsBlock: "Anti-EDS", category: "anti-eds", size: "M", sitesCount: 7, totalSites: 28,
+    description: "Raw Brightcove JavaScript SDK embed requiring player script loaded in page head. Cannot be natively authored in EDS without a custom block wrapper.",
+    screenshot: "../rinvoqhcp/screenshots/blocks/HTML%20Container.png",
+    variants: [
+      { id: "V1", label: "Raw Brightcove SDK", domSig: "abbv-embed-pro abbv-html-container", sites: "ra.com, nobsabouths.com, durystahcp.com, usdermed.com, beyondagutfeeling.com, rinvoqhcp.com, venclexta.com", ref: "https://www.rinvoqhcp.com" }
+    ]
+  },
+  {
+    id: 22, name: "Provider Locator — Google Maps", edsBlock: "Anti-EDS", category: "anti-eds", size: "C", sitesCount: 4, totalSites: 28,
+    description: "Doctor/provider finder with interactive map. Requires AbbVie provider database API + Google Maps JavaScript API key. Cannot be replicated in EDS without external API integration.",
+    screenshot: null,
+    variants: [
+      { id: "V1", label: "Doctor/Provider Finder", domSig: "abbv-find-a-provider", sites: "skyrizilocator.com, amlexpertconnect.com, psoriasis.com, ra.com", ref: "https://skyrizilocator.com" }
+    ]
+  },
+  {
+    id: 23, name: "Quick Poll", edsBlock: "Anti-EDS", category: "anti-eds", size: "M", sitesCount: 3, totalSites: 28,
+    description: "Interactive poll widget storing responses server-side via proprietary AbbVie poll API. Cannot be authored natively in EDS without a custom block + API endpoint.",
+    screenshot: null,
+    variants: [
+      { id: "V1", label: "Interactive Poll Widget", domSig: "abbv-quick-poll", sites: "psoriasis.com, ra.com, crohnsandcolitis.com", ref: "https://www.psoriasis.com" }
+    ]
+  },
+  {
+    id: 24, name: "Indication Swap", edsBlock: "Anti-EDS", category: "anti-eds", size: "C", sitesCount: 4, totalSites: 28,
+    description: "Runtime content switching by URL parameter or cookie — incompatible with EDS static delivery model. Full content region swaps dynamically based on selected indication.",
+    screenshot: "../rinvoqhcp/screenshots/blocks/Indication%20Swap%20(MoA).png",
+    variants: [
+      { id: "V1", label: "Header Indication Swap", domSig: "abbv-indication-swap abbv-header-v2", sites: "beyondagutfeeling.com, rheumfordialogue.abbvie.com, emrelis.com, decnupaz.com", ref: "https://rheumfordialogue.abbvie.com" }
+    ]
+  },
+  {
+    id: 25, name: "HTML Container", edsBlock: "Anti-EDS", category: "anti-eds", size: "M", sitesCount: 6, totalSites: 28,
+    description: "Raw HTML injection region for third-party scripts, dynamic content, or legacy embeds. Unstructured HTML requiring sanitisation in EDS. Maps to Fragment block but needs content audit.",
+    screenshot: "../rinvoqhcp/screenshots/blocks/HTML%20Container.png",
+    variants: [
+      { id: "V1", label: "Raw HTML/iframe Inject", domSig: "abbv-html-container", sites: "rinvoqhcp.com, venclexta.com, ra.com, nobsabouths.com, rheumfordialogue.abbvie.com", ref: "https://www.rinvoqhcp.com" }
+    ]
+  },
+  {
+    id: 26, name: "Google reCAPTCHA", edsBlock: "Anti-EDS", category: "anti-eds", size: "S", sitesCount: 2, totalSites: 28,
+    description: "Standard v2 reCAPTCHA on locator forms. Third-party dependency tied to provider locator forms. Requires Google reCAPTCHA API key and server-side verification.",
+    screenshot: null,
+    variants: [
+      { id: "V1", label: "Standard v2 reCAPTCHA", domSig: "g-recaptcha abbv-badgeless-captcha", sites: "skyrizilocator.com, amlexpertconnect.com", ref: "https://skyrizilocator.com" }
+    ]
+  },
+  {
+    id: 27, name: "AEM Forms", edsBlock: "Anti-EDS", category: "anti-eds", size: "M", sitesCount: 2, totalSites: 28,
+    description: "Full AEM Forms backend embedded as iframe. Complex to replace — requires replatforming to EDS-native forms with equivalent backend processing.",
+    screenshot: null,
+    variants: [
+      { id: "V1", label: "AEM Form iframe", domSig: "aemform iframe aemformcontainer", sites: "savewithays.com, eczemaheadquarters.com", ref: "https://www.savewithays.com" }
+    ]
+  },
+  {
+    id: 28, name: "abbv-tab-* Deep-Link URLs", edsBlock: "Anti-EDS", category: "anti-eds", size: "S", sitesCount: 12, totalSites: 28,
+    description: "Auto-generated tab anchor URLs appearing in XML sitemaps but returning 404 on direct navigation. Creates ~120 phantom URLs, inflating the apparent page count by ~22%. Must be excluded from migration scope.",
+    screenshot: null,
+    variants: [
+      { id: "V1", label: "Auto-generated tab anchor URLs", domSig: "abbv-tab-XXXXXXXXXX-N (URL pattern in sitemap)", sites: "crohnsandcolitis.com (33), nobsabouths.com (35), hsdiseasesource.com (34), rinvoqhcp.com (8), venclexta.com (8), faceyourbackpain.com (7), burdenofad.com (8), savewithays.com (6), durystahcp.com (3), durystasavingsprogram.com (3), rheumfordialogue.abbvie.com (6), psoriasis.com (4)", ref: "#" }
+    ]
+  }
+];
+
+const SITE_DATA = [
+  {
+    site: "rinvoqhcp.com", archetype: "HCP Rx (Multi-Indication)", totalTemplates: 14, totalPages: 35, url: "https://www.rinvoqhcp.com",
+    templates: [
+      { id:"T01", name:"Homepage", pages:1, pageNames:["/"], blocks:["Brand Explorer","Hero Banner","Image Text Block","Rich Text","ISI Safety Bar","Section Navigation"], complexity:"M", authorable:"partial", reason:"Brand Explorer = custom P1 build required" },
+      { id:"T02", name:"Specialty Hub Landing", pages:3, pageNames:["/rheumatology", "/atopic-dermatitis", "/gastroenterology"], blocks:["Brand Explorer","Hero Banner","Image Text Block","Rich Text","Tabs","ISI Safety Bar"], complexity:"M", authorable:"partial", reason:"Tabs generate abbv-tab-* phantom deep-link URLs (Anti-EDS URL pattern)" },
+      { id:"T03", name:"Condition Landing", pages:9, pageNames:["/atopic-dermatitis/overview", "/rheumatology/ra", "/rheumatology/psoriatic-arthritis", "/rheumatology/ankylosing-spondylitis", "/rheumatology/nr-axspa", "/gastroenterology/crohns-disease", "/gastroenterology/ulcerative-colitis", "/atopic-dermatitis/pediatric", "/gastroenterology/pediatric-crohns"], blocks:["Brand Explorer","Hero Banner","Image Text Block","Background Container","Promo Drawer","Image Swap","Tabs","Dismiss Content","ISI Safety Bar"], complexity:"M", authorable:"partial", reason:"Promo Drawer = custom P2 build; Tabs deep-link URLs" },
+      { id:"T04", name:"Efficacy (Clinical Data)", pages:8, pageNames:["/atopic-dermatitis/efficacy", "/atopic-dermatitis/efficacy/head-to-head", "/rheumatology/ra/efficacy", "/rheumatology/psoriatic-arthritis/efficacy", "/rheumatology/ankylosing-spondylitis/efficacy", "/gastroenterology/crohns-disease/efficacy", "/gastroenterology/ulcerative-colitis/efficacy", "/atopic-dermatitis/efficacy/pivotal-trials"], blocks:["Hero Banner","Section Navigation","Tabs (multi-group)","Image Text Block","Rich Text","Accordion","ISI Safety Bar"], complexity:"C", authorable:"partial", reason:"Up to 6 tab groups/page generate ~8 abbv-tab-* phantom URLs each" },
+      { id:"T05", name:"Head-to-Head Comparison", pages:2, pageNames:["/atopic-dermatitis/efficacy/rinvoq-vs-dupixent/level-up", "/atopic-dermatitis/efficacy/rinvoq-vs-dupixent/level-up-2"], blocks:["Hero Banner","Tabs","Image Slider","Promo Drawer","Rich Text","Section Navigation","ISI Safety Bar"], complexity:"C", authorable:"partial", reason:"Image Slider (abbv-img-slider) = custom carousel variant build needed" },
+      { id:"T06", name:"Safety Information", pages:4, pageNames:["/rheumatology/safety", "/atopic-dermatitis/safety", "/gastroenterology/safety", "/rheumatology/ra/safety"], blocks:["Hero Banner","Section Navigation","Accordion (multi-open)","Rich Text","Inline ISI","ISI Safety Bar"], complexity:"C", authorable:"yes", reason:"" },
+      { id:"T07", name:"Dosing & Lab Monitoring", pages:4, pageNames:["/rheumatology/dosing-lab-monitoring", "/atopic-dermatitis/dosing-lab-monitoring", "/gastroenterology/dosing-lab-monitoring", "/rheumatology/ra/dosing-lab-monitoring"], blocks:["Hero Banner","Section Navigation","Tabs","Rich Text","Table","ISI Safety Bar"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T08", name:"Access & Reimbursement", pages:4, pageNames:["/rheumatology/access", "/atopic-dermatitis/access", "/gastroenterology/access", "/rheumatology/ra/access"], blocks:["Hero Banner","Formulary Tool","Image Text Block","Accordion","Rich Text","Section Navigation","ISI Safety Bar"], complexity:"C", authorable:"no", reason:"Formulary Tool (abbv-formulary-dynamic) = Anti-EDS, requires live AbbVie coverage API" },
+      { id:"T09", name:"Mechanism of Action", pages:2, pageNames:["/mechanism-of-action", "/atopic-dermatitis/mechanism-of-action"], blocks:["Hero Banner","Background Container","Indication Swap","Video Player","Rich Text","ISI Safety Bar"], complexity:"C", authorable:"no", reason:"Indication Swap (abbv-indication-swap) = Anti-EDS; Brightcove Pro SDK" },
+      { id:"T10", name:"Real Patients", pages:1, pageNames:["/atopic-dermatitis/real-patients"], blocks:["Hero Banner","Tabs","Image Text Block","Rich Text","Dismiss Content","ISI Safety Bar"], complexity:"M", authorable:"partial", reason:"Tab-anchored patient profiles generate deep-link URLs" },
+      { id:"T11", name:"Expert Insights", pages:1, pageNames:["/gastroenterology/expert-insights"], blocks:["Hero Banner","Video Player","Accordion (single-open)","Rich Text","ISI Safety Bar"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T12", name:"Resources & Support", pages:2, pageNames:["/resources", "/patient-support"], blocks:["Hero Banner","Image Text Block","Rich Text","ISI Safety Bar"], complexity:"S", authorable:"yes", reason:"" },
+      { id:"T13", name:"Contact / Sign-Up", pages:1, pageNames:["/contact-a-rep"], blocks:["Hero Banner","Form","Rich Text","ISI Safety Bar"], complexity:"M", authorable:"partial", reason:"Form = custom EDS form block needed" },
+      { id:"T14", name:"Redirect / Error Pages", pages:8, pageNames:["/patientsite", "/covid19", "/prescribinginfo", "/404", "/sitemap", "/sign-up", "/legal", "/accessibility"], blocks:["Rich Text","Header","Footer"], complexity:"S", authorable:"yes", reason:"" }
+    ]
+  },
+  {
+    site: "venclexta.com", archetype: "Oncology Patient Rx (Multi-Indication)", totalTemplates: 14, totalPages: 45, url: "https://www.venclexta.com",
+    templates: [
+      { id:"T01", name:"Homepage", pages:1, pageNames:["/"], blocks:["Header v2","Safety Bar","Image Text Block","Background Container","Rich Text","Modal"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T02", name:"Indication Hub Landing", pages:3, pageNames:["/aml", "/previously-untreated-cll", "/previously-treated-cll"], blocks:["Image Text Block","Background Container","Title","CTA Buttons","Rich Text","Jump Links"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T03", name:"Efficacy / How It May Help", pages:3, pageNames:["/aml/why-venclexta/how-it-may-help", "/previously-untreated-cll/why-venclexta/how-it-may-help", "/previously-treated-cll/why-venclexta/how-it-may-help"], blocks:["Image Text Block","Image Swap","Background Container","Jump Links","Inline ISI","Inline Use"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T04", name:"Mechanism of Action", pages:3, pageNames:["/aml/why-venclexta/how-it-works", "/previously-untreated-cll/why-venclexta/how-it-works", "/previously-treated-cll/why-venclexta/how-it-works"], blocks:["Video Player (Brightcove Pro)","Image Text Block","Background Container","Rich Text"], complexity:"C", authorable:"no", reason:"abbv-embed-pro Brightcove SDK = Anti-EDS" },
+      { id:"T05", name:"Differentiation / Why Venclexta", pages:6, pageNames:["/previously-untreated-cll/why-venclexta/how-its-different", "/aml/why-venclexta/how-its-different", "/previously-untreated-cll/why-venclexta/venclexta-azacitidine", "/aml/why-venclexta/venclexta-azacitidine", "/aml/why-venclexta/venclexta-decitabine", "/aml/why-venclexta/venclexta-low-dose-cytarabine"], blocks:["Image Text Block","Background Container","Image Swap","Rich Text","Title","CTA Button"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T06", name:"Patient Stories (CLL Stories)", pages:3, pageNames:["/previously-untreated-cll/why-venclexta/cll-stories", "/previously-treated-cll/why-venclexta/cll-stories", "/aml/why-venclexta/patient-stories"], blocks:["Video Player","Image Text Block","Stretched Card","Rich Text"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T07", name:"Disease Overview / About CLL / AML", pages:8, pageNames:["/previously-untreated-cll/about-cll-sll/what-is-cll-sll", "/previously-untreated-cll/about-cll-sll/diagnosis-information", "/previously-untreated-cll/about-cll-sll/treatment-options", "/aml/about-aml/what-is-aml", "/aml/about-aml/treatment-options", "/previously-treated-cll/about-cll-sll/what-is-cll-sll", "/previously-treated-cll/about-cll-sll/diagnosis-information", "/previously-treated-cll/about-cll-sll/treatment-options"], blocks:["Rich Text","Title","Image Text Block","Background Container","Accordion","HTML Container"], complexity:"M", authorable:"partial", reason:"HTML Container used for anatomical diagrams — needs asset migration strategy" },
+      { id:"T08", name:"Side Effects / Safety Information", pages:3, pageNames:["/previously-untreated-cll/possible-side-effects", "/aml/possible-side-effects", "/previously-treated-cll/possible-side-effects"], blocks:["Accordion (multi-open)","CLL ISI Block","Inline Misc ISI","Rich Text","Jump Links"], complexity:"C", authorable:"yes", reason:"" },
+      { id:"T09", name:"Dosing Schedule / Ramp-Up", pages:3, pageNames:["/previously-untreated-cll/taking-venclexta/dosing-schedule", "/aml/taking-venclexta/dosing-schedule", "/previously-treated-cll/taking-venclexta/dosing-schedule"], blocks:["Rich Text","Title","Image Text Block","Image Swap","Background Container","Jump Links","Inline ISI"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T10", name:"Dosing Instructions / Administration", pages:3, pageNames:["/previously-untreated-cll/taking-venclexta/dosing-instructions", "/aml/taking-venclexta/dosing-instructions", "/previously-treated-cll/taking-venclexta/dosing-instructions"], blocks:["Rich Text","Title","Image Text Block","Background Container","Inline Use"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T11", name:"Resources & Financial Assistance", pages:6, pageNames:["/previously-untreated-cll/resources-and-support/helpful-resources-and-materials", "/previously-untreated-cll/resources-and-support/financial-and-treatment-support", "/aml/resources-and-support/helpful-resources-and-materials", "/aml/resources-and-support/financial-and-treatment-support", "/previously-untreated-cll/find-a-healthcare-provider", "/resources"], blocks:["Stretched Card","Image Text Block","Rich Text","CTA Buttons","Flex Container","Tabs"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T12", name:"Conversation Guide (Multi-Step)", pages:3, pageNames:["/conversation-guide", "/previously-untreated-cll/conversation-guide", "/aml/conversation-guide"], blocks:["Rich Text","Title","Image Text Block","Accordion","CTA Buttons","Flex Container"], complexity:"C", authorable:"partial", reason:"Multi-step progressive-disclosure flow = no standard EDS block; custom JS required" },
+      { id:"T13", name:"VEN Zone Registration / Sign-Up", pages:2, pageNames:["/ven-zone-register", "/previously-untreated-cll/ven-zone-signup"], blocks:["Rich Text","Title","Image Text Block","HTML Container","CTA Button"], complexity:"C", authorable:"no", reason:"HTML Container wraps embedded registration form — needs Form block + backend replacement" },
+      { id:"T14", name:"Utility / Legal / Error Pages", pages:10, pageNames:["/search-results", "/sitemap", "/legal-notice", "/privacy-policy", "/accessibility", "/full-prescribing-information", "/full-isi", "/contact-us", "/404", "/previously-untreated-cll/find-a-healthcare-provider"], blocks:["Search","Search Inline","Rich Text","Title"], complexity:"S", authorable:"yes", reason:"" }
+    ]
+  },
+  {
+    site: "durystahcp.com", archetype: "HCP Rx (Single-Indication)", totalTemplates: 9, totalPages: 13, url: "https://www.durystahcp.com",
+    templates: [
+      { id:"T01", name:"Homepage", pages:1, pageNames:["/"], blocks:["Header v2","Hero Banner","Image Text Block","Rich Text","ISI Safety Bar","Footer"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T02", name:"How It Works / MoA", pages:1, pageNames:["/how-it-works"], blocks:["Hero Banner","Video Player (Brightcove Pro)","Image Text Block","Rich Text","ISI Safety Bar"], complexity:"C", authorable:"no", reason:"abbv-embed-pro Brightcove SDK = Anti-EDS" },
+      { id:"T03", name:"Clinical Efficacy", pages:2, pageNames:["/clinical-data/efficacy", "/clinical-data/sustained-reduction"], blocks:["Hero Banner","Tabs","Image Text Block","Image Swap","Rich Text","ISI Safety Bar"], complexity:"C", authorable:"partial", reason:"Tabs generate deep-link anchor URLs" },
+      { id:"T04", name:"Safety Information", pages:2, pageNames:["/safety/adverse-reactions", "/safety/warnings-precautions"], blocks:["Hero Banner","Accordion (multi-open)","Rich Text","Inline ISI","ISI Safety Bar"], complexity:"C", authorable:"yes", reason:"" },
+      { id:"T05", name:"Dosing Instructions", pages:1, pageNames:["/dosing"], blocks:["Hero Banner","Image Text Block","Rich Text","Table","ISI Safety Bar"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T06", name:"Access & Reimbursement", pages:2, pageNames:["/access/coverage", "/access/patient-support"], blocks:["Hero Banner","Image Text Block","Accordion","Rich Text","ISI Safety Bar"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T07", name:"Patient Support / Savings", pages:1, pageNames:["/savings"], blocks:["Hero Banner","Image Text Block","CTA Buttons","Rich Text","ISI Safety Bar"], complexity:"S", authorable:"yes", reason:"" },
+      { id:"T08", name:"HCP Promo / Promo Drawer", pages:1, pageNames:["/hcp-resources"], blocks:["Hero Banner","Promo Drawer","Image Text Block","Rich Text","ISI Safety Bar"], complexity:"M", authorable:"partial", reason:"Promo Drawer = custom P2 block build" },
+      { id:"T09", name:"Utility / Legal / ISI", pages:2, pageNames:["/full-prescribing-information", "/legal"], blocks:["Rich Text","Header","Footer"], complexity:"S", authorable:"yes", reason:"" }
+    ]
+  },
+  {
+    site: "emrelis.com", archetype: "Patient Rx (Indication-Swap)", totalTemplates: 3, totalPages: 4, url: "https://www.emrelis.com",
+    templates: [
+      { id:"T01", name:"Homepage (Indication-Swap)", pages:1, pageNames:["/"], blocks:["Header v2 (Indication-Swap)","Hero Banner","Image Text Block","Rich Text","ISI Safety Bar"], complexity:"C", authorable:"no", reason:"Indication Swap (abbv-indication-swap) = Anti-EDS — runtime content replacement incompatible with static delivery" },
+      { id:"T02", name:"Indication-Specific Content Pages", pages:2, pageNames:["/emrelis-for-nsclc", "/emrelis-for-mesothelioma"], blocks:["Image Text Block","Background Container","Rich Text","CTA Buttons","ISI Safety Bar"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T03", name:"Utility / Legal", pages:1, pageNames:["/legal"], blocks:["Rich Text","Header","Footer"], complexity:"S", authorable:"yes", reason:"" }
+    ]
+  },
+  {
+    site: "decnupaz.com", archetype: "Patient Rx (Indication-Swap)", totalTemplates: 6, totalPages: 6, url: "https://www.decnupaz.com",
+    templates: [
+      { id:"T01", name:"Homepage (Indication-Swap)", pages:1, pageNames:["/"], blocks:["Header v2 (Indication-Swap)","Hero Banner","Image Text Block","Rich Text","ISI Safety Bar"], complexity:"C", authorable:"no", reason:"Indication Swap = Anti-EDS" },
+      { id:"T02", name:"How It Works / MoA", pages:1, pageNames:["/how-decnupaz-works"], blocks:["Image Text Block","Video Player","Rich Text","ISI Safety Bar"], complexity:"M", authorable:"partial", reason:"Brightcove embed" },
+      { id:"T03", name:"Efficacy / Clinical Data", pages:1, pageNames:["/clinical-data"], blocks:["Hero Banner","Tabs","Image Text Block","Rich Text","ISI Safety Bar"], complexity:"C", authorable:"partial", reason:"Tabs deep-link URLs" },
+      { id:"T04", name:"Safety Information", pages:1, pageNames:["/safety"], blocks:["Accordion","Rich Text","Inline ISI","ISI Safety Bar"], complexity:"C", authorable:"yes", reason:"" },
+      { id:"T05", name:"Dosing / Instructions", pages:1, pageNames:["/dosing"], blocks:["Image Text Block","Rich Text","ISI Safety Bar"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T06", name:"Utility / Legal", pages:1, pageNames:["/legal"], blocks:["Rich Text","Header","Footer"], complexity:"S", authorable:"yes", reason:"" }
+    ]
+  },
+  {
+    site: "latestagensclc.com", archetype: "Patient Rx (Oncology)", totalTemplates: 8, totalPages: 8, url: "https://www.latestagensclc.com",
+    templates: [
+      { id:"T01", name:"Homepage", pages:1, pageNames:["/"], blocks:["Header","Hero Banner","Image Text Block","Rich Text","ISI Safety Bar","Footer"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T02", name:"About NSCLC / Disease Overview", pages:1, pageNames:["/about-nsclc"], blocks:["Image Text Block","Rich Text","Background Container","ISI Safety Bar"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T03", name:"Efficacy / Clinical Results", pages:1, pageNames:["/efficacy"], blocks:["Image Text Block","Image Swap","Tabs","Rich Text","ISI Safety Bar"], complexity:"C", authorable:"partial", reason:"Tabs deep-link URLs" },
+      { id:"T04", name:"Safety Information", pages:1, pageNames:["/safety"], blocks:["Accordion","Rich Text","Inline ISI","ISI Safety Bar"], complexity:"C", authorable:"yes", reason:"" },
+      { id:"T05", name:"Dosing / How to Take", pages:1, pageNames:["/dosing"], blocks:["Image Text Block","Rich Text","Table","ISI Safety Bar"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T06", name:"Real Patient Story", pages:1, pageNames:["/patient-story"], blocks:["Video Player","Image Text Block","Rich Text","ISI Safety Bar"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T07", name:"Resources & Support", pages:1, pageNames:["/resources"], blocks:["Image Text Block","CTA Buttons","Rich Text","ISI Safety Bar"], complexity:"S", authorable:"yes", reason:"" },
+      { id:"T08", name:"Utility / Legal", pages:1, pageNames:["/legal"], blocks:["Rich Text","Header","Footer"], complexity:"S", authorable:"yes", reason:"" }
+    ]
+  },
+  {
+    site: "lastacaft.com", archetype: "Patient Rx (Eye Care)", totalTemplates: 8, totalPages: 8, url: "https://www.lastacaft.com",
+    templates: [
+      { id:"T01", name:"Homepage", pages:1, pageNames:["/"], blocks:["Header","Hero Banner","Image Text Block","Rich Text","ISI Safety Bar","Footer"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T02", name:"About Allergic Conjunctivitis", pages:1, pageNames:["/about-allergic-conjunctivitis"], blocks:["Image Text Block","Rich Text","Background Container"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T03", name:"How Lastacaft Works", pages:1, pageNames:["/how-it-works"], blocks:["Image Text Block","Video Player","Rich Text","ISI Safety Bar"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T04", name:"Efficacy Data", pages:1, pageNames:["/efficacy"], blocks:["Image Text Block","Tabs","Rich Text","ISI Safety Bar"], complexity:"C", authorable:"partial", reason:"Tabs deep-link URLs" },
+      { id:"T05", name:"Dosing Instructions", pages:1, pageNames:["/dosing"], blocks:["Image Text Block","Rich Text","ISI Safety Bar"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T06", name:"Safety Information", pages:1, pageNames:["/safety"], blocks:["Accordion","Rich Text","Inline ISI","ISI Safety Bar"], complexity:"C", authorable:"yes", reason:"" },
+      { id:"T07", name:"Resources / Savings", pages:1, pageNames:["/savings"], blocks:["Image Text Block","CTA Buttons","Rich Text"], complexity:"S", authorable:"yes", reason:"" },
+      { id:"T08", name:"Utility / Legal", pages:1, pageNames:["/legal"], blocks:["Rich Text","Header","Footer"], complexity:"S", authorable:"yes", reason:"" }
+    ]
+  },
+  {
+    site: "lupronprostatecancer.com", archetype: "Patient Rx (Prostate Cancer)", totalTemplates: 11, totalPages: 33, url: "https://www.lupronprostatecancer.com",
+    templates: [
+      { id:"T01", name:"Homepage", pages:1, pageNames:["/"], blocks:["Header","Hero Banner","Image Text Block","Rich Text","Footer"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T02", name:"About Prostate Cancer (Stage-Specific)", pages:4, pageNames:["/early-stage-prostate-cancer", "/advanced-prostate-cancer", "/metastatic-prostate-cancer", "/castration-resistant-prostate-cancer"], blocks:["Image Text Block","Rich Text","Background Container","CTA Buttons"], complexity:"M", authorable:"yes", reason:"4 stage variants (early/advanced/metastatic/castration-resistant) share same template" },
+      { id:"T03", name:"How Lupron Works / MoA", pages:2, pageNames:["/how-lupron-works", "/lupron-and-radiation"], blocks:["Image Text Block","Video Player","Background Container","Rich Text","ISI Safety Bar"], complexity:"M", authorable:"yes", reason:"Standard Brightcove (not Pro SDK)" },
+      { id:"T04", name:"Efficacy & Clinical Results", pages:3, pageNames:["/clinical-data/psa-reduction", "/clinical-data/testosterone-suppression", "/clinical-data/survival"], blocks:["Image Text Block","Image Swap","Rich Text","ISI Safety Bar"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T05", name:"Dosing / Administration (Injection)", pages:4, pageNames:["/dosing/1-month", "/dosing/3-month", "/dosing/4-month", "/administration"], blocks:["Image Text Block","Rich Text","Table","Video Player","ISI Safety Bar"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T06", name:"Side Effects / Safety", pages:2, pageNames:["/safety/adverse-reactions", "/safety/warnings"], blocks:["Accordion","Rich Text","Inline ISI","ISI Safety Bar"], complexity:"C", authorable:"yes", reason:"" },
+      { id:"T07", name:"Living With Prostate Cancer", pages:4, pageNames:["/living-with-prostate-cancer", "/for-caregivers", "/managing-side-effects", "/diet-and-exercise"], blocks:["Image Text Block","Rich Text","Background Container","CTA Buttons"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T08", name:"Patient Stories / Videos", pages:3, pageNames:["/patient-stories/john", "/patient-stories/michael", "/patient-stories/robert"], blocks:["Video Player","Image Text Block","Rich Text"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T09", name:"Resources & Support", pages:3, pageNames:["/resources", "/financial-assistance", "/downloadable-materials"], blocks:["Image Text Block","CTA Buttons","Rich Text"], complexity:"S", authorable:"yes", reason:"" },
+      { id:"T10", name:"FAQ / Accordion Content", pages:3, pageNames:["/faq", "/glossary", "/about-hormonal-therapy"], blocks:["Accordion","Rich Text"], complexity:"S", authorable:"yes", reason:"" },
+      { id:"T11", name:"Utility / Legal / Error", pages:4, pageNames:["/legal", "/accessibility", "/sitemap", "/404"], blocks:["Rich Text","Header","Footer"], complexity:"S", authorable:"yes", reason:"" }
+    ]
+  },
+  {
+    site: "crohnsandcolitis.com", archetype: "Disease Education", totalTemplates: 10, totalPages: 34, url: "https://www.crohnsandcolitis.com",
+    templates: [
+      { id:"T01", name:"Homepage", pages:1, pageNames:["/"], blocks:["Header","Hero Banner","Image Text Block","Quick Poll","Rich Text","Footer"], complexity:"M", authorable:"partial", reason:"Quick Poll (abbv-quick-poll) = Anti-EDS — requires server-side poll API" },
+      { id:"T02", name:"Condition Hub Landing (IBD/Crohn's/UC)", pages:3, pageNames:["/ibd", "/crohns-disease", "/ulcerative-colitis"], blocks:["Hero Banner","Image Text Block","CTA Buttons","Rich Text"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T03", name:"Disease Overview / What Is", pages:4, pageNames:["/crohns-disease/what-is-crohns", "/crohns-disease/causes", "/ulcerative-colitis/what-is-uc", "/ulcerative-colitis/causes"], blocks:["Image Text Block","Background Container","Rich Text","Accordion"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T04", name:"Symptoms & Diagnosis", pages:4, pageNames:["/crohns-disease/symptoms", "/crohns-disease/diagnosis", "/ulcerative-colitis/symptoms", "/ulcerative-colitis/diagnosis"], blocks:["Image Text Block","Rich Text","Background Container","CTA Buttons"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T05", name:"Treatment Options", pages:4, pageNames:["/crohns-disease/treatment-options", "/crohns-disease/biologics", "/ulcerative-colitis/treatment-options", "/ulcerative-colitis/medications"], blocks:["Image Text Block","Tabs","Rich Text","Accordion"], complexity:"M", authorable:"partial", reason:"Tabs deep-link URLs" },
+      { id:"T06", name:"Living With IBD / Lifestyle", pages:4, pageNames:["/crohns-disease/living-with-crohns", "/ulcerative-colitis/living-with-uc", "/crohns-disease/diet-and-nutrition", "/ibd/mental-health"], blocks:["Image Text Block","Rich Text","Background Container"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T07", name:"Patient Stories / Videos", pages:3, pageNames:["/patient-stories/sarah", "/patient-stories/david", "/patient-stories/emily"], blocks:["Video Player","Image Text Block","Rich Text"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T08", name:"Quick Poll / Interactive Content", pages:3, pageNames:["/crohns-disease/poll", "/ulcerative-colitis/poll", "/ibd/quiz"], blocks:["Quick Poll","Image Text Block","Rich Text"], complexity:"M", authorable:"no", reason:"abbv-quick-poll = Anti-EDS — requires server-side poll API" },
+      { id:"T09", name:"Resources & Support", pages:4, pageNames:["/resources", "/support-groups", "/find-a-gi-doctor", "/financial-assistance"], blocks:["Image Text Block","CTA Buttons","Rich Text"], complexity:"S", authorable:"yes", reason:"" },
+      { id:"T10", name:"Utility / Legal / Error", pages:4, pageNames:["/legal", "/accessibility", "/sitemap", "/404"], blocks:["Rich Text","Header","Footer"], complexity:"S", authorable:"yes", reason:"" }
+    ]
+  },
+  {
+    site: "faceyourbackpain.com", archetype: "Disease Education", totalTemplates: 10, totalPages: 37, url: "https://www.faceyourbackpain.com",
+    templates: [
+      { id:"T01", name:"Homepage", pages:1, pageNames:["/"], blocks:["Header","Hero Banner","Image Text Block","Rich Text","Footer"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T02", name:"Pain Type Hub (Neck / Lower / Hip)", pages:3, pageNames:["/neck-pain", "/lower-back-pain", "/hip-pain"], blocks:["Hero Banner","Image Text Block","CTA Buttons","Rich Text"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T03", name:"Understanding Back Pain (Overview)", pages:4, pageNames:["/lower-back-pain/overview", "/neck-pain/overview", "/hip-pain/overview", "/back-pain/causes"], blocks:["Image Text Block","Rich Text","Background Container"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T04", name:"Diagnosis & Testing", pages:4, pageNames:["/lower-back-pain/diagnosis", "/neck-pain/diagnosis", "/hip-pain/diagnosis", "/back-pain/when-to-see-a-doctor"], blocks:["Image Text Block","Rich Text","Background Container","Accordion"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T05", name:"Treatment Approaches", pages:5, pageNames:["/lower-back-pain/treatment", "/neck-pain/treatment", "/hip-pain/treatment", "/back-pain/physical-therapy", "/back-pain/surgery"], blocks:["Image Text Block","Tabs","Rich Text","Accordion"], complexity:"M", authorable:"partial", reason:"Tabs deep-link URLs" },
+      { id:"T06", name:"Exercises & Lifestyle", pages:5, pageNames:["/exercises/lower-back", "/exercises/neck", "/exercises/hip", "/lifestyle/ergonomics", "/lifestyle/sleep"], blocks:["Image Text Block","Rich Text","Video Player"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T07", name:"Living With Pain / Caregiver Guide", pages:4, pageNames:["/living-with-pain", "/for-caregivers", "/back-pain/mental-health", "/caregiver-guide"], blocks:["Image Text Block","Rich Text","CTA Buttons"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T08", name:"Find a Specialist", pages:2, pageNames:["/find-a-specialist", "/find-a-doctor"], blocks:["Provider Locator","Rich Text","Header","Footer"], complexity:"C", authorable:"no", reason:"Google Maps + AbbVie provider DB = Anti-EDS" },
+      { id:"T09", name:"Resources & Tools", pages:5, pageNames:["/resources", "/tools/pain-tracker", "/downloadable-materials", "/glossary", "/faq"], blocks:["Image Text Block","CTA Buttons","Rich Text","Accordion"], complexity:"S", authorable:"yes", reason:"" },
+      { id:"T10", name:"Utility / Legal / Error", pages:4, pageNames:["/legal", "/accessibility", "/sitemap", "/404"], blocks:["Rich Text","Header","Footer"], complexity:"S", authorable:"yes", reason:"" }
+    ]
+  },
+  {
+    site: "hsdiseasesource.com", archetype: "Disease Education", totalTemplates: 8, totalPages: 19, url: "https://www.hsdiseasesource.com",
+    templates: [
+      { id:"T01", name:"Homepage", pages:1, pageNames:["/"], blocks:["Header","Hero Banner","Image Text Block","Rich Text","Footer"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T02", name:"What Is HS / Disease Overview", pages:3, pageNames:["/what-is-hs", "/hs-overview"], blocks:["Image Text Block","Rich Text","Background Container"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T03", name:"Symptoms & Diagnosis", pages:3, pageNames:["/hs-symptoms", "/hs-diagnosis", "/hs-stages"], blocks:["Image Text Block","Rich Text","Accordion"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T04", name:"Treatment Options", pages:3, pageNames:["/hs-treatment", "/hs-biologics", "/hs-lifestyle"], blocks:["Image Text Block","Rich Text","Tabs","CTA Buttons"], complexity:"M", authorable:"partial", reason:"Tabs deep-link URLs" },
+      { id:"T05", name:"Living With HS / Support", pages:3, pageNames:["/living-with-hs", "/hs-support", "/hs-mental-health"], blocks:["Image Text Block","Rich Text","Video Player"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T06", name:"Find a Dermatologist", pages:1, pageNames:["/find-a-dermatologist"], blocks:["Provider Locator","Rich Text","Header","Footer"], complexity:"C", authorable:"no", reason:"Google Maps + AbbVie provider DB = Anti-EDS" },
+      { id:"T07", name:"Resources & Tools", pages:3, pageNames:["/resources", "/hs-glossary", "/downloadable-materials"], blocks:["Image Text Block","CTA Buttons","Rich Text"], complexity:"S", authorable:"yes", reason:"" },
+      { id:"T08", name:"Utility / Legal / Error", pages:2, pageNames:["/legal", "/sitemap", "/404"], blocks:["Rich Text","Header","Footer"], complexity:"S", authorable:"yes", reason:"" }
+    ]
+  },
+  {
+    site: "nobsabouths.com", archetype: "Disease Education", totalTemplates: 11, totalPages: 38, url: "https://www.nobsabouths.com",
+    templates: [
+      { id:"T01", name:"Homepage", pages:1, pageNames:["/"], blocks:["Header","Hero Banner","Image Text Block","Rich Text","Footer"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T02", name:"HS Type Hub (Mild / Moderate / Severe)", pages:4, pageNames:["/mild-hs", "/moderate-hs", "/severe-hs", "/hs-stages"], blocks:["Hero Banner","Image Text Block","CTA Buttons","Rich Text"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T03", name:"Disease Overview / What Is HS", pages:4, pageNames:["/what-is-hs", "/hs-causes", "/hs-impact", "/hs-misconceptions"], blocks:["Image Text Block","Background Container","Rich Text"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T04", name:"Symptoms & Impact", pages:4, pageNames:["/hs-symptoms", "/hs-emotional-impact", "/hs-daily-life", "/hs-flares"], blocks:["Image Text Block","Rich Text","Video Player"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T05", name:"Treatment Options", pages:5, pageNames:["/hs-treatment", "/hs-medications", "/hs-biologics", "/hs-lifestyle-treatment", "/hs-surgery"], blocks:["Image Text Block","Tabs","Rich Text","Accordion"], complexity:"M", authorable:"partial", reason:"Tabs deep-link URLs" },
+      { id:"T06", name:"Living With HS / Lifestyle", pages:4, pageNames:["/living-with-hs", "/hs-relationships", "/hs-work", "/hs-self-care"], blocks:["Image Text Block","Rich Text","Background Container"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T07", name:"Patient Stories / Videos", pages:3, pageNames:["/patient-stories/amy", "/patient-stories/james", "/patient-stories/keisha"], blocks:["Video Player","Image Text Block","Rich Text","Carousel"], complexity:"M", authorable:"partial", reason:"owl-carousel = needs standard EDS Carousel block" },
+      { id:"T08", name:"Find a Dermatologist", pages:1, pageNames:["/find-a-dermatologist"], blocks:["Provider Locator","Rich Text","Header","Footer"], complexity:"C", authorable:"no", reason:"Google Maps = Anti-EDS" },
+      { id:"T09", name:"Quick Poll / Symptom Quiz", pages:3, pageNames:["/hs-quiz", "/hs-symptom-tracker", "/hs-poll"], blocks:["Quick Poll","Image Text Block","Rich Text"], complexity:"M", authorable:"no", reason:"abbv-quick-poll = Anti-EDS" },
+      { id:"T10", name:"Resources & Support", pages:5, pageNames:["/resources", "/hs-glossary", "/support-groups", "/financial-assistance", "/downloadable-materials"], blocks:["Image Text Block","CTA Buttons","Rich Text"], complexity:"S", authorable:"yes", reason:"" },
+      { id:"T11", name:"Utility / Legal / Error", pages:4, pageNames:["/legal", "/accessibility", "/sitemap", "/404"], blocks:["Rich Text","Header","Footer"], complexity:"S", authorable:"yes", reason:"" }
+    ]
+  },
+  {
+    site: "psoriaticarthritisinfo.com", archetype: "Disease Education", totalTemplates: 7, totalPages: 21, url: "https://www.psoriaticarthritisinfo.com",
+    templates: [
+      { id:"T01", name:"Homepage", pages:1, pageNames:["/"], blocks:["Header","Hero Banner","Image Text Block","Rich Text","Footer"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T02", name:"About PsA / Disease Hub", pages:3, pageNames:["/what-is-psa", "/about-psoriatic-arthritis", "/psa-and-psoriasis"], blocks:["Hero Banner","Image Text Block","Rich Text","Background Container"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T03", name:"Symptoms & Diagnosis", pages:3, pageNames:["/psa-symptoms", "/psa-diagnosis", "/psa-triggers"], blocks:["Image Text Block","Rich Text","Accordion"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T04", name:"Treatment Options", pages:4, pageNames:["/psa-treatment", "/psa-medications", "/psa-biologics", "/psa-lifestyle"], blocks:["Image Text Block","Tabs","Rich Text"], complexity:"M", authorable:"partial", reason:"Tabs deep-link URLs" },
+      { id:"T05", name:"Living With PsA / Lifestyle", pages:3, pageNames:["/living-with-psa", "/psa-exercise", "/psa-diet"], blocks:["Image Text Block","Rich Text","CTA Buttons"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T06", name:"Resources & Tools", pages:3, pageNames:["/resources", "/psa-glossary", "/downloadable-materials"], blocks:["Image Text Block","CTA Buttons","Rich Text"], complexity:"S", authorable:"yes", reason:"" },
+      { id:"T07", name:"Utility / Legal / Error", pages:4, pageNames:["/legal", "/accessibility", "/sitemap", "/404"], blocks:["Rich Text","Header","Footer"], complexity:"S", authorable:"yes", reason:"" }
+    ]
+  },
+  {
+    site: "psoriasis.com", archetype: "Disease Education (with Locator)", totalTemplates: 11, totalPages: 77, url: "https://www.psoriasis.com",
+    templates: [
+      { id:"T01", name:"Homepage", pages:1, pageNames:["/"], blocks:["Header v2","Hero Banner","Image Text Block","Quick Poll","Rich Text","Footer"], complexity:"M", authorable:"partial", reason:"Quick Poll = Anti-EDS" },
+      { id:"T02", name:"Psoriasis Type Hub (6 types)", pages:5, pageNames:["/plaque-psoriasis", "/guttate-psoriasis", "/pustular-psoriasis", "/erythrodermic-psoriasis", "/inverse-psoriasis"], blocks:["Hero Banner","Image Text Block","CTA Buttons","Rich Text"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T03", name:"Disease Overview (per type)", pages:10, pageNames:["/plaque-psoriasis/overview", "/plaque-psoriasis/what-is", "/guttate-psoriasis/overview", "/pustular-psoriasis/overview", "/erythrodermic-psoriasis/overview", "/inverse-psoriasis/overview", "/psoriasis/causes", "/psoriasis/risk-factors", "/psoriasis/triggers", "/psoriasis/statistics"], blocks:["Image Text Block","Background Container","Rich Text","Accordion"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T04", name:"Symptoms & Triggers", pages:8, pageNames:["/psoriasis/symptoms", "/plaque-psoriasis/symptoms", "/guttate-psoriasis/symptoms", "/scalp-psoriasis", "/nail-psoriasis", "/psoriatic-arthritis-link", "/psoriasis/flares", "/psoriasis/emotional-impact"], blocks:["Image Text Block","Rich Text","Background Container"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T05", name:"Diagnosis & Testing", pages:6, pageNames:["/psoriasis/diagnosis", "/psoriasis/when-to-see-doctor", "/psoriasis/specialist", "/psoriasis/tests", "/psoriasis/severity-scoring", "/psoriasis/differential-diagnosis"], blocks:["Image Text Block","Rich Text","Accordion","CTA Buttons"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T06", name:"Treatment Options", pages:10, pageNames:["/psoriasis/treatment", "/psoriasis/topicals", "/psoriasis/biologics", "/psoriasis/systemics", "/psoriasis/phototherapy", "/psoriasis/combination-therapy", "/psoriasis/new-treatments", "/psoriasis/natural-remedies", "/psoriasis/medications-comparison", "/psoriasis/treatment-goals"], blocks:["Image Text Block","Tabs","Rich Text","Accordion"], complexity:"M", authorable:"partial", reason:"Tabs deep-link URLs" },
+      { id:"T07", name:"Living With Psoriasis", pages:8, pageNames:["/living-with-psoriasis", "/psoriasis/diet", "/psoriasis/exercise", "/psoriasis/skincare", "/psoriasis/stress-management", "/psoriasis/relationships", "/psoriasis/work", "/psoriasis/travel"], blocks:["Image Text Block","Rich Text","Background Container","Video Player"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T08", name:"Find a Dermatologist", pages:2, pageNames:["/find-a-dermatologist", "/find-a-psoriasis-specialist"], blocks:["Provider Locator","Rich Text","Header","Footer"], complexity:"C", authorable:"no", reason:"Google Maps + AbbVie provider DB + reCAPTCHA = Anti-EDS" },
+      { id:"T09", name:"Quick Poll / Symptom Check", pages:4, pageNames:["/psoriasis/symptom-checker", "/psoriasis/quiz", "/psoriasis/impact-poll", "/psoriasis/treatment-poll"], blocks:["Quick Poll","Image Text Block","Rich Text"], complexity:"M", authorable:"no", reason:"abbv-quick-poll = Anti-EDS" },
+      { id:"T10", name:"Resources & Community", pages:8, pageNames:["/resources", "/support-groups", "/financial-assistance", "/downloadable-materials", "/psoriasis/glossary", "/psoriasis/faqs", "/psoriasis/research", "/community"], blocks:["Image Text Block","CTA Buttons","Rich Text","Cards"], complexity:"S", authorable:"yes", reason:"" },
+      { id:"T11", name:"Utility / Legal / Error", pages:5, pageNames:["/legal", "/accessibility", "/sitemap", "/404", "/privacy"], blocks:["Rich Text","Header","Footer"], complexity:"S", authorable:"yes", reason:"" }
+    ]
+  },
+  {
+    site: "ra.com", archetype: "Disease Education (Video + Poll)", totalTemplates: 10, totalPages: 39, url: "https://www.ra.com",
+    templates: [
+      { id:"T01", name:"Homepage", pages:1, pageNames:["/"], blocks:["Header v2","Hero Banner","Image Text Block","Quick Poll","Rich Text","Footer"], complexity:"M", authorable:"partial", reason:"Quick Poll = Anti-EDS" },
+      { id:"T02", name:"About RA / Disease Hub", pages:4, pageNames:["/what-is-ra", "/about-ra", "/ra-causes", "/ra-statistics"], blocks:["Hero Banner","Image Text Block","Rich Text","Background Container"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T03", name:"Symptoms & Diagnosis", pages:4, pageNames:["/ra-symptoms", "/ra-diagnosis", "/ra-triggers", "/ra-complications"], blocks:["Image Text Block","Rich Text","Accordion","Background Container"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T04", name:"Treatment Options + Poll", pages:5, pageNames:["/ra-treatment", "/ra-medications", "/ra-biologics", "/ra-treatment-poll", "/ra-treatment-comparison"], blocks:["Image Text Block","Tabs","Rich Text","Quick Poll"], complexity:"M", authorable:"no", reason:"Quick Poll = Anti-EDS on treatment decision pages" },
+      { id:"T05", name:"Expert Video Content (KOL)", pages:5, pageNames:["/ra-expert-videos/dr-smith", "/ra-expert-videos/dr-jones", "/ra-expert-videos/biologics-overview", "/ra-expert-videos/treat-to-target", "/ra-webinar"], blocks:["Video Player (Brightcove)","Image Text Block","Rich Text","Accordion"], complexity:"M", authorable:"partial", reason:"Brightcove SDK embed on ra.com" },
+      { id:"T06", name:"Living With RA / Patient Tips", pages:4, pageNames:["/living-with-ra", "/ra-exercise", "/ra-diet", "/ra-work"], blocks:["Image Text Block","Rich Text","Video Player"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T07", name:"Find a Rheumatologist", pages:2, pageNames:["/find-a-rheumatologist", "/find-a-specialist"], blocks:["Provider Locator","Rich Text","Header","Footer"], complexity:"C", authorable:"no", reason:"Google Maps = Anti-EDS" },
+      { id:"T08", name:"Patient Stories", pages:4, pageNames:["/patient-stories/linda", "/patient-stories/robert", "/patient-stories/karen", "/ra-caregiver-story"], blocks:["Video Player","Image Text Block","Rich Text"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T09", name:"Resources & Tools", pages:5, pageNames:["/resources", "/ra-glossary", "/downloadable-materials", "/support-groups", "/financial-assistance"], blocks:["Image Text Block","CTA Buttons","Rich Text","Cards"], complexity:"S", authorable:"yes", reason:"" },
+      { id:"T10", name:"Utility / Legal / Error", pages:5, pageNames:["/legal", "/accessibility", "/sitemap", "/404", "/privacy"], blocks:["Rich Text","Header","Footer"], complexity:"S", authorable:"yes", reason:"" }
+    ]
+  },
+  {
+    site: "eczemaheadquarters.com", archetype: "Disease Education", totalTemplates: 10, totalPages: 53, url: "https://www.eczemaheadquarters.com",
+    templates: [
+      { id:"T01", name:"Homepage", pages:1, pageNames:["/"], blocks:["Header v2","Hero Banner","Image Text Block","Rich Text","Footer"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T02", name:"Eczema Type Hub (Atopic / Contact / etc.)", pages:5, pageNames:["/atopic-dermatitis", "/contact-dermatitis", "/dyshidrotic-eczema", "/nummular-eczema", "/seborrheic-dermatitis"], blocks:["Hero Banner","Image Text Block","CTA Buttons","Rich Text"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T03", name:"Disease Overview (per type)", pages:10, pageNames:["/atopic-dermatitis/overview", "/atopic-dermatitis/what-is", "/contact-dermatitis/overview", "/dyshidrotic-eczema/overview", "/nummular-eczema/overview", "/seborrheic-dermatitis/overview", "/eczema/causes", "/eczema/genetics", "/eczema/skin-barrier", "/eczema/statistics"], blocks:["Image Text Block","Background Container","Rich Text","Accordion"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T04", name:"Symptoms & Triggers", pages:8, pageNames:["/eczema/symptoms", "/atopic-dermatitis/symptoms", "/eczema/triggers", "/eczema/flares", "/eczema/itch", "/eczema/skin-appearance", "/eczema/emotional-impact", "/eczema/sleep-impact"], blocks:["Image Text Block","Rich Text","Background Container"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T05", name:"Diagnosis & Testing", pages:5, pageNames:["/eczema/diagnosis", "/eczema/allergy-testing", "/eczema/specialist", "/eczema/severity-scoring", "/eczema/patch-testing"], blocks:["Image Text Block","Rich Text","Accordion"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T06", name:"Treatment Options", pages:8, pageNames:["/eczema/treatment", "/eczema/topicals", "/eczema/biologics", "/eczema/systemics", "/eczema/phototherapy", "/eczema/wet-wrap", "/eczema/new-treatments", "/eczema/combination-therapy"], blocks:["Image Text Block","Tabs","Rich Text","Accordion"], complexity:"M", authorable:"partial", reason:"Tabs deep-link URLs" },
+      { id:"T07", name:"Living With Eczema / Lifestyle", pages:6, pageNames:["/living-with-eczema", "/eczema/skincare-routine", "/eczema/diet", "/eczema/stress", "/eczema/exercise", "/eczema/sleep"], blocks:["Image Text Block","Rich Text","Video Player","Background Container"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T08", name:"Registration / Sign-Up (AEM Form)", pages:3, pageNames:["/sign-up", "/newsletter-registration", "/community-registration"], blocks:["Hero Banner","Form (AEM iframe)","Rich Text"], complexity:"C", authorable:"no", reason:"AEM Forms iframe = Anti-EDS" },
+      { id:"T09", name:"Resources & Support", pages:5, pageNames:["/resources", "/support-groups", "/financial-assistance", "/downloadable-materials", "/eczema/faqs"], blocks:["Image Text Block","CTA Buttons","Rich Text","Cards"], complexity:"S", authorable:"yes", reason:"" },
+      { id:"T10", name:"Utility / Legal / Error", pages:2, pageNames:["/legal", "/accessibility"], blocks:["Rich Text","Header","Footer"], complexity:"S", authorable:"yes", reason:"" }
+    ]
+  },
+  {
+    site: "burdenofad.com", archetype: "Disease Education", totalTemplates: 5, totalPages: 7, url: "https://www.burdenofad.com",
+    templates: [
+      { id:"T01", name:"Homepage", pages:1, pageNames:["/"], blocks:["Header","Hero Banner","Image Text Block","Rich Text","Footer"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T02", name:"What Is AD / Disease Overview", pages:2, pageNames:["/what-is-ad", "/about-atopic-dermatitis"], blocks:["Image Text Block","Rich Text","Background Container"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T03", name:"Burden of Disease / Impact", pages:2, pageNames:["/burden-of-disease", "/ad-impact-on-patients"], blocks:["Image Text Block","Rich Text","Background Container","CTA Buttons"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T04", name:"Resources & Support", pages:1, pageNames:["/resources"], blocks:["Image Text Block","CTA Buttons","Rich Text"], complexity:"S", authorable:"yes", reason:"" },
+      { id:"T05", name:"Utility / Legal / Error", pages:1, pageNames:["/legal"], blocks:["Rich Text","Header","Footer"], complexity:"S", authorable:"yes", reason:"" }
+    ]
+  },
+  {
+    site: "hcp.xengelstent.com", archetype: "HCP Device (ENT Stent)", totalTemplates: 6, totalPages: 11, url: "https://hcp.xengelstent.com",
+    templates: [
+      { id:"T01", name:"Homepage", pages:1, pageNames:["/"], blocks:["Header","Hero Banner","Image Text Block","Rich Text","Footer"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T02", name:"Device Overview / How It Works", pages:2, pageNames:["/how-it-works", "/device-overview"], blocks:["Image Text Block","Video Player","Background Container","Rich Text"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T03", name:"Clinical Performance Data", pages:2, pageNames:["/clinical-evidence", "/outcomes-data"], blocks:["Image Text Block","Image Swap","Tabs","Rich Text"], complexity:"C", authorable:"partial", reason:"Tabs deep-link URLs" },
+      { id:"T04", name:"Procedure / Implant Guide", pages:2, pageNames:["/procedure-guide", "/implant-technique"], blocks:["Image Text Block","Rich Text","Video Player","Table"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T05", name:"Access & Coverage", pages:2, pageNames:["/access/coverage", "/access/reimbursement"], blocks:["Image Text Block","Accordion","Rich Text","CTA Buttons"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T06", name:"Utility / Legal / Error", pages:2, pageNames:["/legal", "/accessibility"], blocks:["Rich Text","Header","Footer"], complexity:"S", authorable:"yes", reason:"" }
+    ]
+  },
+  {
+    site: "usdermed.com", archetype: "HCP Education (Dermatology)", totalTemplates: 8, totalPages: 31, url: "https://www.usdermed.com",
+    templates: [
+      { id:"T01", name:"Homepage", pages:1, pageNames:["/"], blocks:["Header v2 Lite","Hero Banner","Image Text Block","Rich Text","Footer"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T02", name:"Specialty / Indication Hub", pages:3, pageNames:["/dermatology", "/atopic-dermatitis", "/psoriasis"], blocks:["Hero Banner","Image Text Block","CTA Buttons","Rich Text"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T03", name:"Disease Overview / Education", pages:5, pageNames:["/atopic-dermatitis/overview", "/psoriasis/overview", "/hidradenitis-suppurativa/overview", "/atopic-dermatitis/pathophysiology", "/psoriasis/pathophysiology"], blocks:["Image Text Block","Background Container","Rich Text","Accordion"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T04", name:"Treatment Options / Comparison", pages:4, pageNames:["/atopic-dermatitis/treatment-options", "/psoriasis/treatment-options", "/hs/treatment-options", "/atopic-dermatitis/biologic-comparison"], blocks:["Image Text Block","Tabs","Rich Text","Video Player (Brightcove)"], complexity:"M", authorable:"partial", reason:"Brightcove SDK + Tabs deep-link" },
+      { id:"T05", name:"Expert Video / KOL Content", pages:5, pageNames:["/expert-videos/dr-amber", "/expert-videos/dr-james", "/expert-videos/biologics-update", "/expert-videos/treat-to-target", "/kol-series"], blocks:["Video Player (Brightcove)","Image Text Block","Rich Text","Accordion"], complexity:"M", authorable:"partial", reason:"Brightcove SDK embed" },
+      { id:"T06", name:"MoA / How It Works", pages:3, pageNames:["/atopic-dermatitis/moa", "/psoriasis/il-17-pathway", "/hs/tnf-pathway"], blocks:["Video Player (Brightcove Pro)","Image Text Block","Rich Text"], complexity:"C", authorable:"no", reason:"abbv-embed-pro = Anti-EDS" },
+      { id:"T07", name:"Resources & CME", pages:5, pageNames:["/resources", "/cme-education", "/downloadable-materials", "/patient-materials", "/practice-tools"], blocks:["Image Text Block","CTA Buttons","Rich Text","Cards"], complexity:"S", authorable:"yes", reason:"" },
+      { id:"T08", name:"Utility / Legal / Error", pages:5, pageNames:["/legal", "/accessibility", "/sitemap", "/404", "/privacy"], blocks:["Rich Text","Header","Footer"], complexity:"S", authorable:"yes", reason:"" }
+    ]
+  },
+  {
+    site: "rheumfordialogue.abbvie.com", archetype: "HCP Education (Multi-Brand)", totalTemplates: 2, totalPages: 2, url: "https://rheumfordialogue.abbvie.com",
+    templates: [
+      { id:"T01", name:"Homepage / Main Landing", pages:1, pageNames:["/"], blocks:["Header v2 (Indication-Swap)","Carousel (owl)","Video Player (YouTube)","Image Text Block","Rich Text"], complexity:"C", authorable:"no", reason:"Indication Swap = Anti-EDS; owl-carousel needs EDS Carousel; YouTube via HTML Container" },
+      { id:"T02", name:"Utility / Legal", pages:1, pageNames:["/legal"], blocks:["Rich Text","Header","Footer"], complexity:"S", authorable:"yes", reason:"" }
+    ]
+  },
+  {
+    site: "beyondagutfeeling.com", archetype: "HCP Education (IBD, Single-Page)", totalTemplates: 1, totalPages: 1, url: "https://www.beyondagutfeeling.com",
+    templates: [
+      { id:"T01", name:"Homepage / Single-Page Site", pages:1, pageNames:["/"], blocks:["Header v2 (Indication-Swap)","Hero Banner","Video Player (Brightcove Playlist)","Image Text Block","Rich Text"], complexity:"C", authorable:"no", reason:"Indication Swap = Anti-EDS; Brightcove Playlist (abbv-video-playlist) needs custom block" }
+    ]
+  },
+  {
+    site: "savewithays.com", archetype: "Savings Program (with AEM Form)", totalTemplates: 7, totalPages: 8, url: "https://www.savewithays.com",
+    templates: [
+      { id:"T01", name:"Homepage", pages:1, pageNames:["/"], blocks:["Allergan AYS Header","Hero Banner","Icon Nav","Image Text Block","Rich Text","Footer"], complexity:"M", authorable:"partial", reason:"Custom Allergan-branded header variant needed" },
+      { id:"T02", name:"How AYS Works / Step Guide", pages:1, pageNames:["/how-it-works"], blocks:["Image Text Block","Background Container","Rich Text","CTA Buttons"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T03", name:"Eligibility & Terms", pages:1, pageNames:["/eligibility"], blocks:["Image Text Block","Accordion","Rich Text","CTA Buttons"], complexity:"S", authorable:"yes", reason:"" },
+      { id:"T04", name:"Enrollment Form", pages:1, pageNames:["/enroll"], blocks:["Hero Banner","Form (AEM iframe)","Rich Text"], complexity:"C", authorable:"no", reason:"AEM Forms iframe = Anti-EDS" },
+      { id:"T05", name:"Demo Video Modal", pages:1, pageNames:["/demo"], blocks:["Video Player","Modal (Video)","Image Text Block","Rich Text"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T06", name:"FAQ / Accordion", pages:1, pageNames:["/faq"], blocks:["Accordion","Rich Text","CTA Buttons"], complexity:"S", authorable:"yes", reason:"" },
+      { id:"T07", name:"Utility / Legal / Error", pages:2, pageNames:["/legal", "/accessibility"], blocks:["Rich Text","Header","Footer"], complexity:"S", authorable:"yes", reason:"" }
+    ]
+  },
+  {
+    site: "completerebate.com", archetype: "Savings Program (Rebate)", totalTemplates: 2, totalPages: 2, url: "https://www.completerebate.com",
+    templates: [
+      { id:"T01", name:"Homepage / How to Submit Rebate", pages:1, pageNames:["/"], blocks:["Header","Hero Banner","Image Text Block","Background Container","Rich Text","Footer"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T02", name:"Utility / Legal", pages:1, pageNames:["/legal"], blocks:["Rich Text","Header","Footer"], complexity:"S", authorable:"yes", reason:"" }
+    ]
+  },
+  {
+    site: "durystasavingsprogram.com", archetype: "Savings Program", totalTemplates: 2, totalPages: 2, url: "https://www.durystasavingsprogram.com",
+    templates: [
+      { id:"T01", name:"Homepage / Savings Landing", pages:1, pageNames:["/"], blocks:["Header","Hero Banner","Image Text Block","Rich Text","ISI Safety Bar","Footer"], complexity:"M", authorable:"yes", reason:"" },
+      { id:"T02", name:"Utility / Legal / ISI", pages:1, pageNames:["/legal"], blocks:["Rich Text","Header","Footer"], complexity:"S", authorable:"yes", reason:"" }
+    ]
+  },
+  {
+    site: "skyrizilocator.com", archetype: "HCP Locator", totalTemplates: 2, totalPages: 2, url: "https://www.skyrizilocator.com",
+    templates: [
+      { id:"T01", name:"Locator Entry / Search Input", pages:1, pageNames:["/"], blocks:["Provider Locator (Google Maps)","Rich Text","Header","Footer"], complexity:"C", authorable:"no", reason:"Google Maps API + AbbVie provider DB + reCAPTCHA = all Anti-EDS" },
+      { id:"T02", name:"Results / Provider Profile", pages:1, pageNames:["/results"], blocks:["Provider Locator","Rich Text","Header","Footer"], complexity:"C", authorable:"no", reason:"Google Maps = Anti-EDS" }
+    ]
+  },
+  {
+    site: "amlexpertconnect.com", archetype: "HCP Locator (Oncology Expert)", totalTemplates: 1, totalPages: 1, url: "https://www.amlexpertconnect.com",
+    templates: [
+      { id:"T01", name:"Expert Locator (Single Page)", pages:1, pageNames:["/"], blocks:["Provider Locator (Google Maps)","Rich Text","reCAPTCHA","Header","Footer"], complexity:"C", authorable:"no", reason:"Google Maps + reCAPTCHA = Anti-EDS" }
+    ]
+  },
+  {
+    site: "durysta.com", archetype: "Patient Rx (Inaccessible — HTTP 403)", totalTemplates: null, totalPages: null, url: "https://www.durysta.com",
+    templates: [], blocked: true
+  },
+  {
+    site: "allergansavingscard.com", archetype: "Savings Program (Inaccessible — HTTP 403)", totalTemplates: null, totalPages: null, url: "https://www.allergansavingscard.com",
+    templates: [], blocked: true
+  }
+];
+
+// ═══════════════════════ RENDERING ═══════════════════════
+
+let currentFilter = 'all';
+
+function getCategoryBadge(cat) {
+  if (cat === 'common')   return '<span class="badge badge-common">Common EDS</span>';
+  if (cat === 'custom')   return '<span class="badge badge-custom">Custom Required</span>';
+  if (cat === 'anti-eds') return '<span class="badge badge-anti">Anti-EDS</span>';
+  return '';
+}
+
+function getSizeBadge(size) {
+  return `<span class="badge badge-size-${size.toLowerCase()}">Size: ${size}</span>`;
+}
+
+function renderBlocks(data) {
+  const grid = document.getElementById('blocksGrid');
+  const noRes = document.getElementById('noResults');
+  if (!data.length) {
+    grid.innerHTML = '';
+    noRes.style.display = 'block';
+    return;
+  }
+  noRes.style.display = 'none';
+  grid.innerHTML = data.map(b => {
+    const varCount = b.variants.length;
+    const varRows = b.variants.map(v =>
+      `<tr>
+        <td>${v.id}</td>
+        <td>${v.label}</td>
+        <td><code class="dom-sig">${v.domSig}</code></td>
+        <td style="max-width:300px;font-size:11px">${v.sites}</td>
+        <td>${v.ref !== '#' ? `<a href="${v.ref}" target="_blank" rel="noopener">Link ↗</a>` : '—'}</td>
+      </tr>`
+    ).join('');
+    return `
+    <div class="block-card" data-id="${b.id}" data-category="${b.category}">
+      <div class="block-card-inner">
+        <div class="block-info">
+          <div class="block-info-header">
+            <div>
+              <div class="block-name">#${b.id} ${b.name}</div>
+              <div class="block-eds-label">EDS: <strong>${b.edsBlock}</strong></div>
+            </div>
+            <div class="block-badges">
+              ${getCategoryBadge(b.category)}
+              ${getSizeBadge(b.size)}
+              <span class="badge badge-sites">${b.sitesCount}/${b.totalSites} sites</span>
+            </div>
+          </div>
+          <div class="block-desc">${b.description}</div>
+          <button class="variants-toggle" onclick="toggleVariants(this, ${b.id})">Show ${varCount} variant${varCount !== 1 ? 's' : ''} ▾</button>
+        </div>
+      </div>
+      <div class="variants-section" id="variants-${b.id}">
+        <div class="variants-table-wrap">
+          <table class="variants-table">
+            <thead><tr><th>ID</th><th>Label</th><th>DOM Signature</th><th>Sites Found</th><th>Reference</th></tr></thead>
+            <tbody>${varRows}</tbody>
+          </table>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleVariants(btn, id) {
+  const sec = document.getElementById(`variants-${id}`);
+  const isOpen = sec.classList.toggle('open');
+  btn.textContent = isOpen
+    ? btn.textContent.replace('Show', 'Hide').replace('▾', '▴')
+    : btn.textContent.replace('Hide', 'Show').replace('▴', '▾');
+}
+
+function filterBlocks() {
+  const q = document.getElementById('blockSearch').value.toLowerCase().trim();
+  let data = BLOCK_DATA;
+  if (currentFilter !== 'all') {
+    data = data.filter(b => b.category === currentFilter);
+  }
+  if (q) {
+    data = data.filter(b => {
+      const haystack = [
+        b.name, b.edsBlock, b.description, b.category,
+        ...b.variants.map(v => `${v.label} ${v.domSig} ${v.sites}`)
+      ].join(' ').toLowerCase();
+      return haystack.includes(q);
+    });
+  }
+  renderBlocks(data);
+}
+
+function setFilter(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterBlocks();
+}
+
+function renderAllSiteTemplates() {
+  const container = document.getElementById('allSitesContainer');
+  container.innerHTML = SITE_DATA.map(s => {
+    if (s.blocked) {
+      return `<div class="ps-card ps-blocked">
+        <div class="ps-header">
+          <span class="ps-site-name">${s.site}</span>
+          <span class="ps-archetype">${s.archetype}</span>
+          <div class="ps-meta"><span class="badge badge-no">Inaccessible</span></div>
+        </div>
+      </div>`;
+    }
+    const yes = s.templates.filter(t => t.authorable === 'yes').length;
+    const partial = s.templates.filter(t => t.authorable === 'partial').length;
+    const no = s.templates.filter(t => t.authorable === 'no').length;
+    const totalPagesCount = s.templates.reduce((sum, t) => sum + t.pages, 0);
+    const authPct = Math.round((yes / s.templates.length) * 100);
+    const rows = s.templates.map(t => {
+      const aClass = t.authorable === 'yes' ? 'badge-yes' : t.authorable === 'partial' ? 'badge-partial' : 'badge-no';
+      const aLabel = t.authorable === 'yes' ? '✅ Yes' : t.authorable === 'partial' ? '⚠️ Partial' : '❌ No';
+      const sClass = t.complexity === 'C' ? 'badge-size-c' : t.complexity === 'M' ? 'badge-size-m' : 'badge-size-s';
+      const blockTags = t.blocks.map(b => `<span class="tb">${b}</span>`).join('');
+      return `<tr>
+        <td class="tid">${t.id}</td>
+        <td class="tname">${t.name}</td>
+        <td class="tpages">${t.pages}${t.pageNames && t.pageNames.length ? `<div class="tpage-list">${t.pageNames.map(p=>`<span class="tpage-item">${p}</span>`).join('')}</div>` : ''}</td>
+        <td><div class="tblocks">${blockTags}</div></td>
+        <td><span class="badge ${sClass}" style="font-size:10px;">Size:${t.complexity}</span></td>
+        <td><span class="badge ${aClass}" style="font-size:10px;">${aLabel}</span>${t.reason ? `<div class="treason" style="margin-top:3px;">${t.reason}</div>` : ''}</td>
+      </tr>`;
+    }).join('');
+    return `
+    <div class="ps-card">
+      <div class="ps-header" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.ps-arrow').textContent=this.nextElementSibling.classList.contains('open')?'▴':'▾'">
+        <span class="ps-site-name">${s.site}</span>
+        <span class="ps-archetype">${s.archetype}</span>
+        <div class="ps-meta">
+          <span class="badge badge-sites">${s.totalTemplates} templates</span>
+          <span class="badge badge-sites">~${totalPagesCount} pages</span>
+          <span class="badge badge-yes" style="font-size:10px;">✅ ${yes}</span>
+          ${partial > 0 ? `<span class="badge badge-partial" style="font-size:10px;">⚠️ ${partial}</span>` : ''}
+          ${no > 0 ? `<span class="badge badge-no" style="font-size:10px;">❌ ${no}</span>` : ''}
+          <span class="ps-arrow" style="font-size:11px;color:var(--text-muted);">▾</span>
+        </div>
+      </div>
+      <div class="ps-body">
+        <div class="ps-summary">
+          <span class="ps-summary-item">Migration efficiency: <strong>1 template = batch migrate all pages sharing that template</strong></span>
+          <span class="ps-summary-item">Fully authorable: <strong>${yes}/${s.templates.length} templates (${authPct}%)</strong></span>
+          ${no > 0 ? `<span class="ps-summary-item" style="color:#fca5a5;">Needs Anti-EDS resolution: <strong>${no} template${no>1?'s':''}</strong></span>` : ''}
+        </div>
+        <div class="ps-table-wrap">
+          <table class="ps-table">
+            <thead><tr><th>ID</th><th>Template Name</th><th style="text-align:center">Pages</th><th>Recommended EDS Blocks</th><th>Size</th><th>Authorable in EDS?</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+const TEMPLATE_GROUPS = [
+  {
+    id: "TG01", name: "Homepage", complexity: "M", totalSites: 28, totalPages: 28,
+    description: "Brand/disease homepage. Hero above fold, primary indication or condition selector, key CTAs. Every site has exactly one.",
+    keyBlocks: ["Header", "Hero / Background Container", "Image-Text Block", "Rich Text", "Modal (WOL)", "Footer"],
+    sites: [
+      { site: "rinvoqhcp.com", templateId: "T01", pages: 1, note: "Brand Explorer full-screen overlay" },
+      { site: "venclexta.com", templateId: "T01", pages: 1, note: "Indication header dropdown (no brand-explorer)" },
+      { site: "durystahcp.com", templateId: "—", pages: 1, note: "HCP hero + promo drawer" },
+      { site: "emrelis.com", templateId: "—", pages: 1, note: "Indication-swap homepage" },
+      { site: "decnupaz.com", templateId: "—", pages: 1, note: "Indication-swap homepage" },
+      { site: "beyondagutfeeling.com", templateId: "—", pages: 1, note: "HCP education landing" },
+      { site: "crohnsandcolitis.com", templateId: "—", pages: 1, note: "Disease education homepage" },
+      { site: "faceyourbackpain.com", templateId: "—", pages: 1, note: "Disease education homepage" },
+      { site: "hsdiseasesource.com", templateId: "—", pages: 1, note: "Disease education homepage" },
+      { site: "nobsabouths.com", templateId: "—", pages: 1, note: "Disease education homepage" },
+      { site: "psoriaticarthritisinfo.com", templateId: "—", pages: 1, note: "Disease education homepage" },
+      { site: "psoriasis.com", templateId: "—", pages: 1, note: "Disease education + locator" },
+      { site: "ra.com", templateId: "—", pages: 1, note: "Disease education + video" },
+      { site: "eczemaheadquarters.com", templateId: "—", pages: 1, note: "Disease education homepage" },
+      { site: "burdenofad.com", templateId: "—", pages: 1, note: "Disease education homepage" },
+      { site: "latestagensclc.com", templateId: "—", pages: 1, note: "Patient Rx homepage" },
+      { site: "lastacaft.com", templateId: "—", pages: 1, note: "Patient Rx homepage" },
+      { site: "lupronprostatecancer.com", templateId: "—", pages: 1, note: "Patient Rx homepage" },
+      { site: "savewithays.com", templateId: "—", pages: 1, note: "Savings program homepage" },
+      { site: "completerebate.com", templateId: "—", pages: 1, note: "Savings program homepage" },
+      { site: "durystasavingsprogram.com", templateId: "—", pages: 1, note: "Savings program homepage" },
+      { site: "rheumfordialogue.abbvie.com", templateId: "—", pages: 1, note: "HCP education landing" },
+      { site: "usdermed.com", templateId: "—", pages: 1, note: "HCP education homepage" },
+      { site: "skyrizilocator.com", templateId: "—", pages: 1, note: "Locator entry" },
+      { site: "amlexpertconnect.com", templateId: "—", pages: 1, note: "Locator entry" },
+      { site: "hcp.xengelstent.com", templateId: "—", pages: 1, note: "HCP device homepage" },
+      { site: "durysta.com", templateId: "—", pages: 1, note: "HTTP 403 — inaccessible" },
+      { site: "allergansavingscard.com", templateId: "—", pages: 1, note: "HTTP 403 — inaccessible" }
+    ]
+  },
+  {
+    id: "TG02", name: "Indication / Disease Hub Landing", complexity: "M", totalSites: 14, totalPages: 42,
+    description: "Mid-level landing linking to child condition/indication pages. Hero + card grid of sub-page links, jump nav. Often has indication dropdown or tabs.",
+    keyBlocks: ["Hero Banner", "Image-Text Block", "Background Container", "Rich Text", "CTA Buttons", "Jump Links"],
+    sites: [
+      { site: "rinvoqhcp.com", templateId: "T02", pages: 3, note: "Specialty Hub (Rheumatology, Derm, GI)" },
+      { site: "venclexta.com", templateId: "T02", pages: 3, note: "Indication Hub (AML, Prev. Untreated CLL, Prev. Treated CLL)" },
+      { site: "crohnsandcolitis.com", templateId: "—", pages: 4, note: "Disease category hubs" },
+      { site: "faceyourbackpain.com", templateId: "—", pages: 3, note: "Pain type landing pages" },
+      { site: "hsdiseasesource.com", templateId: "—", pages: 2, note: "Condition overview landing" },
+      { site: "nobsabouths.com", templateId: "—", pages: 4, note: "HS type landing pages" },
+      { site: "psoriaticarthritisinfo.com", templateId: "—", pages: 3, note: "Disease category hubs" },
+      { site: "psoriasis.com", templateId: "—", pages: 5, note: "Psoriasis type sub-sections" },
+      { site: "ra.com", templateId: "—", pages: 4, note: "RA topic landing pages" },
+      { site: "eczemaheadquarters.com", templateId: "—", pages: 5, note: "Eczema type category hubs" },
+      { site: "lupronprostatecancer.com", templateId: "—", pages: 4, note: "Disease stage/type landing" },
+      { site: "emrelis.com", templateId: "—", pages: 2, note: "Indication sections" },
+      { site: "decnupaz.com", templateId: "—", pages: 2, note: "Indication sections" },
+      { site: "usdermed.com", templateId: "—", pages: 3, note: "Specialty/indication hubs" }
+    ]
+  },
+  {
+    id: "TG03", name: "Efficacy / Clinical Data", complexity: "C", totalSites: 7, totalPages: 24,
+    description: "Clinical study results pages. Tab groups for endpoints, image-swap for data visuals, section navigation, heavy accordion, inline ISI. Most complex content pages.",
+    keyBlocks: ["Section Navigation", "Tabs (multi-group)", "Image Swap", "Image-Text Block", "Accordion", "Inline ISI", "ISI Safety Bar"],
+    sites: [
+      { site: "rinvoqhcp.com", templateId: "T04", pages: 8, note: "Up to 6 tab groups per page; abbv-tab-* deep-link URLs" },
+      { site: "venclexta.com", templateId: "T03", pages: 3, note: "Efficacy / How It May Help per indication" },
+      { site: "durystahcp.com", templateId: "—", pages: 3, note: "Clinical study data pages" },
+      { site: "latestagensclc.com", templateId: "—", pages: 2, note: "NSCLC efficacy pages" },
+      { site: "lastacaft.com", templateId: "—", pages: 2, note: "Clinical efficacy pages" },
+      { site: "lupronprostatecancer.com", templateId: "—", pages: 3, note: "Prostate cancer data pages" },
+      { site: "hcp.xengelstent.com", templateId: "—", pages: 3, note: "Device performance data" }
+    ]
+  },
+  {
+    id: "TG04", name: "Mechanism of Action (MoA)", complexity: "C", totalSites: 6, totalPages: 14,
+    description: "How the drug/device works. Brightcove video (abbv-embed-pro) as primary hero element, image-text supporting blocks, indication-swap on multi-indication sites.",
+    keyBlocks: ["Video Player (Brightcove Pro)", "Image-Text Block", "Background Container", "Rich Text", "ISI Safety Bar"],
+    sites: [
+      { site: "rinvoqhcp.com", templateId: "T09", pages: 2, note: "Indication-swap MoA + Brightcove video" },
+      { site: "venclexta.com", templateId: "T04", pages: 3, note: "Per-indication MoA with abbv-embed-pro" },
+      { site: "durystahcp.com", templateId: "—", pages: 1, note: "MoA video page" },
+      { site: "usdermed.com", templateId: "—", pages: 2, note: "MoA + device explanation" },
+      { site: "beyondagutfeeling.com", templateId: "—", pages: 1, note: "Single MoA video page" },
+      { site: "lupronprostatecancer.com", templateId: "—", pages: 5, note: "How Lupron works pages" }
+    ]
+  },
+  {
+    id: "TG05", name: "Safety / Side Effects", complexity: "C", totalSites: 8, totalPages: 26,
+    description: "Full safety disclosure pages. Verbatim pharma copy required. Heavy accordion (multi-open) for warnings, adverse reactions, drug interactions. ISI Safety Bar mandatory.",
+    keyBlocks: ["Section Navigation", "Accordion (multi-open)", "Inline ISI", "Rich Text", "ISI Safety Bar", "CLL ISI Block (venclexta)"],
+    sites: [
+      { site: "rinvoqhcp.com", templateId: "T06", pages: 4, note: "Boxed warning + adverse reactions accordion" },
+      { site: "venclexta.com", templateId: "T08", pages: 3, note: "CLL-specific ISI variant (abbv-cll-isi)" },
+      { site: "durystahcp.com", templateId: "—", pages: 2, note: "Safety information pages" },
+      { site: "latestagensclc.com", templateId: "—", pages: 1, note: "NSCLC safety page" },
+      { site: "lastacaft.com", templateId: "—", pages: 1, note: "Safety information" },
+      { site: "psoriasis.com", templateId: "—", pages: 3, note: "Safety FAQ pages" },
+      { site: "ra.com", templateId: "—", pages: 3, note: "Safety FAQ pages" },
+      { site: "eczemaheadquarters.com", templateId: "—", pages: 4, note: "Safety and side effects pages" }
+    ]
+  },
+  {
+    id: "TG06", name: "Dosing & Administration", complexity: "M", totalSites: 7, totalPages: 22,
+    description: "Dosing regimen and administration instructions. Image-swap for step-by-step ramp-up, tables inside rich text, jump navigation between dosing scenarios.",
+    keyBlocks: ["Section Navigation", "Tabs", "Image-Text Block", "Image Swap", "Rich Text", "Table", "Jump Links", "ISI Safety Bar"],
+    sites: [
+      { site: "rinvoqhcp.com", templateId: "T07", pages: 4, note: "Dosing & Lab Monitoring; Formulary tool on T08" },
+      { site: "venclexta.com", templateId: "T09+T10", pages: 6, note: "Ramp-up schedule + how to take (two templates)" },
+      { site: "durystahcp.com", templateId: "—", pages: 2, note: "Dosing instructions" },
+      { site: "latestagensclc.com", templateId: "—", pages: 1, note: "Dosing schedule" },
+      { site: "lastacaft.com", templateId: "—", pages: 1, note: "Dosing schedule" },
+      { site: "lupronprostatecancer.com", templateId: "—", pages: 4, note: "Injection and administration" },
+      { site: "hcp.xengelstent.com", templateId: "—", pages: 4, note: "Procedure and implant guide" }
+    ]
+  },
+  {
+    id: "TG07", name: "Head-to-Head / Differentiation", complexity: "C", totalSites: 2, totalPages: 8,
+    description: "Direct comparator study pages. Image slider for before/after data visuals, multi-group tabs, section navigation. Venclexta uses simpler image-swap comparison format.",
+    keyBlocks: ["Tabs (multi-group)", "Image Slider", "Section Navigation", "Image-Text Block", "Rich Text", "ISI Safety Bar"],
+    sites: [
+      { site: "rinvoqhcp.com", templateId: "T05", pages: 2, note: "H2H Level-Up study; abbv-img-slider for before/after" },
+      { site: "venclexta.com", templateId: "T05", pages: 6, note: "Why Venclexta / How It's Different differentiation pages" }
+    ]
+  },
+  {
+    id: "TG08", name: "Patient Stories / Testimonials", complexity: "M", totalSites: 3, totalPages: 7,
+    description: "Patient or HCP video testimonials. Stretched-card pattern for profile linking, video player for testimonial clips, tabs for patient profiles.",
+    keyBlocks: ["Video Player", "Image-Text Block", "Stretched Card", "Tabs", "Rich Text"],
+    sites: [
+      { site: "rinvoqhcp.com", templateId: "T10", pages: 1, note: "Real patients with tabbed patient profiles" },
+      { site: "venclexta.com", templateId: "T06", pages: 3, note: "CLL patient video stories with stretched-card links" },
+      { site: "nobsabouths.com", templateId: "—", pages: 3, note: "Patient video testimonials" }
+    ]
+  },
+  {
+    id: "TG09", name: "Resources & Financial Support", complexity: "M", totalSites: 8, totalPages: 26,
+    description: "Patient/HCP resources hub and savings program pages. Stretched-card grid of downloadable materials, Tabs for resource categories, savings program enrollment forms.",
+    keyBlocks: ["Stretched Card / Image-Text Block", "Tabs", "CTA Buttons", "Rich Text", "Form (savings program)"],
+    sites: [
+      { site: "rinvoqhcp.com", templateId: "T12", pages: 2, note: "Downloadable PDF resource hub" },
+      { site: "venclexta.com", templateId: "T11", pages: 6, note: "Resources + VEN Zone financial support" },
+      { site: "savewithays.com", templateId: "—", pages: 7, note: "AYS savings program; AEM Form iframe (Anti-EDS)" },
+      { site: "completerebate.com", templateId: "—", pages: 2, note: "Rebate savings program" },
+      { site: "durystasavingsprogram.com", templateId: "—", pages: 2, note: "Durysta savings" },
+      { site: "psoriasis.com", templateId: "—", pages: 4, note: "Resource and support pages" },
+      { site: "ra.com", templateId: "—", pages: 3, note: "Resource library" }
+    ]
+  },
+  {
+    id: "TG10", name: "Access & Reimbursement", complexity: "C", totalSites: 3, totalPages: 10,
+    description: "HCP-focused formulary coverage and reimbursement pages. Dynamic Formulary Tool (Anti-EDS: requires live AbbVie API), co-pay information, accordion for FAQ.",
+    keyBlocks: ["Hero Banner", "Formulary Tool (Anti-EDS)", "Image-Text Block", "Accordion", "Section Navigation", "ISI Safety Bar"],
+    sites: [
+      { site: "rinvoqhcp.com", templateId: "T08", pages: 4, note: "abbv-formulary-dynamic — live API (Anti-EDS)" },
+      { site: "durystahcp.com", templateId: "—", pages: 3, note: "Access and reimbursement pages" },
+      { site: "hcp.xengelstent.com", templateId: "—", pages: 3, note: "Insurance coverage pages" }
+    ]
+  },
+  {
+    id: "TG11", name: "Expert Insights / KOL Education", complexity: "M", totalSites: 4, totalPages: 8,
+    description: "Key opinion leader video content and HCP peer education. Video player as primary element, single-open accordion for Q&A chapters.",
+    keyBlocks: ["Video Player", "Accordion (single-open)", "Image-Text Block", "Rich Text", "Carousel (owl)"],
+    sites: [
+      { site: "rinvoqhcp.com", templateId: "T11", pages: 1, note: "Expert video + single-open accordion chapters" },
+      { site: "rheumfordialogue.abbvie.com", templateId: "—", pages: 2, note: "Multi-brand HCP dialogue; owl-carousel + indication-swap" },
+      { site: "usdermed.com", templateId: "—", pages: 4, note: "HCP education videos and KOL series" },
+      { site: "ra.com", templateId: "—", pages: 1, note: "Expert webinar page" }
+    ]
+  },
+  {
+    id: "TG12", name: "Registration / Contact / Form", complexity: "C", totalSites: 4, totalPages: 9,
+    description: "Lead capture, rep contact, and patient sign-up pages. AEM Form iframe (Anti-EDS on savewithays/eczemaheadquarters), embedded HTML form container on venclexta.",
+    keyBlocks: ["Hero Banner", "Form / HTML Container", "Rich Text", "Image-Text Block"],
+    sites: [
+      { site: "rinvoqhcp.com", templateId: "T13", pages: 1, note: "Contact-a-rep; form embed" },
+      { site: "venclexta.com", templateId: "T13", pages: 2, note: "VEN Zone registration; HTML Container form" },
+      { site: "savewithays.com", templateId: "—", pages: 1, note: "Enrollment form — AEM Forms iframe (Anti-EDS)" },
+      { site: "eczemaheadquarters.com", templateId: "—", pages: 5, note: "Sign-up / registration pages; AEM Forms" }
+    ]
+  },
+  {
+    id: "TG13", name: "Provider / Expert Locator", complexity: "C", totalSites: 3, totalPages: 3,
+    description: "Interactive find-a-doctor or find-an-expert tool. Requires Google Maps API + AbbVie provider database (Anti-EDS). Cannot be replicated natively in EDS.",
+    keyBlocks: ["Provider Locator (Anti-EDS)", "Rich Text", "Header", "Footer"],
+    sites: [
+      { site: "skyrizilocator.com", templateId: "—", pages: 2, note: "Find a Skyrizi prescriber; Google Maps + AbbVie DB" },
+      { site: "amlexpertconnect.com", templateId: "—", pages: 1, note: "Find an AML expert; Google Maps + reCAPTCHA" },
+      { site: "psoriasis.com", templateId: "—", pages: 1, note: "Dermatologist locator embedded on resources page" }
+    ]
+  },
+  {
+    id: "TG14", name: "Utility / Legal / Error / Search", complexity: "S", totalSites: 28, totalPages: 70,
+    description: "Search results, full ISI/Prescribing Information, sitemap, legal disclosures, 404 error, and redirect pages. Minimal blocks — mostly Rich Text and Search.",
+    keyBlocks: ["Search", "Rich Text", "Title", "Header", "Footer"],
+    sites: [
+      { site: "rinvoqhcp.com", templateId: "T14", pages: 8, note: "5 × 404, redirect, PDF, 403" },
+      { site: "venclexta.com", templateId: "T14", pages: 10, note: "Search results, ISI page, sitemap, legal" },
+      { site: "All other sites", templateId: "—", pages: 52, note: "Every site has sitemap, legal, ISI, error pages" }
+    ]
+  }
+];
+
+function renderTemplateGroups() {
+  const el = document.getElementById('tgGrid');
+  el.innerHTML = TEMPLATE_GROUPS.map(g => {
+    const siteRows = g.sites.map(s => `
+      <tr>
+        <td class="site-name">${s.site}</td>
+        <td>${s.templateId}</td>
+        <td>${s.pages}</td>
+        <td style="color:var(--text-muted);font-size:10px;">${s.note}</td>
+      </tr>`).join('');
+    const blockTags = g.keyBlocks.map(b => `<span class="tg-block-tag">${b}</span>`).join('');
+    const sizeCls = g.complexity === 'C' ? 'badge-size-c' : g.complexity === 'M' ? 'badge-size-m' : 'badge-size-s';
+    return `
+    <div class="tg-card">
+      <div class="tg-header" onclick="this.nextElementSibling&&this.nextElementSibling.nextElementSibling&&this.nextElementSibling.nextElementSibling.nextElementSibling.classList.toggle('open')">
+        <span class="tg-id">${g.id}</span>
+        <span class="tg-name">${g.name}</span>
+        <div class="tg-badges">
+          <span class="badge ${sizeCls}">Size: ${g.complexity}</span>
+          <span class="badge badge-sites">${g.totalSites} sites</span>
+          <span class="badge badge-sites">~${g.totalPages} pages</span>
+          <span style="font-size:11px;color:var(--text-muted)">▾</span>
+        </div>
+      </div>
+      <div class="tg-desc">${g.description}</div>
+      <div class="tg-blocks">${blockTags}</div>
+      <div class="tg-sites-section">
+        <table class="tg-sites-table">
+          <thead><tr><th>Site</th><th>Local Template ID</th><th>Pages</th><th>Notes</th></tr></thead>
+          <tbody>${siteRows}</tbody>
+        </table>
+      </div>
+    </div>`;
+  }).join('');
+  // wire up toggles after render
+  document.querySelectorAll('.tg-header').forEach(h => {
+    h.onclick = () => {
+      const section = h.parentElement.querySelector('.tg-sites-section');
+      if (section) section.classList.toggle('open');
+      const arrow = h.querySelector('span:last-child');
+      if (arrow) arrow.textContent = section.classList.contains('open') ? '▴' : '▾';
+    };
+  });
+}
+
+
+// ═══════════════════════ TABLE SORT ═══════════════════════
+
+function sortTable(tableId, colIdx) {
+  const table = document.getElementById(tableId);
+  const tbody = table.querySelector('tbody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  const th = table.querySelectorAll('th')[colIdx];
+  const asc = th.dataset.sort !== 'asc';
+  table.querySelectorAll('th').forEach(h => { h.dataset.sort = ''; });
+  th.dataset.sort = asc ? 'asc' : 'desc';
+  rows.sort((a, b) => {
+    const av = a.cells[colIdx]?.textContent.trim() || '';
+    const bv = b.cells[colIdx]?.textContent.trim() || '';
+    const an = parseFloat(av.replace(/[~,]/g, ''));
+    const bn = parseFloat(bv.replace(/[~,]/g, ''));
+    if (!isNaN(an) && !isNaN(bn)) return asc ? an - bn : bn - an;
+    return asc ? av.localeCompare(bv) : bv.localeCompare(av);
+  });
+  rows.forEach(r => tbody.appendChild(r));
+}
+
+// ═══════════════════════ TABS ═══════════════════════
+
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ═══════════════════════ THEME ═══════════════════════
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const btn = document.querySelector('.theme-toggle');
+  if (html.dataset.theme === 'dark') {
+    html.dataset.theme = 'light';
+    btn.textContent = '🌙 Dark';
+  } else {
+    html.dataset.theme = 'dark';
+    btn.textContent = '☀ Light';
+  }
+}
+
+// ═══════════════════════ INIT ═══════════════════════
+
+renderBlocks(BLOCK_DATA);
+renderTemplateGroups();
+renderAllSiteTemplates();
+</script>
+</body>
+</html>
