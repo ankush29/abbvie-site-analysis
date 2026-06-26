@@ -1,0 +1,35 @@
+"Component","Block collection","Complexity","Variations"
+"Header Navigation","Header","M",1
+"Safety Bar","Safety Bar","C",2
+"Inline ISI / Indication Statement","Safety Bar","C",2
+"Hero Banner - Home","Hero","M",1
+"Hero Banner - Indication Hub","Hero","M",1
+"Hero Banner - How It May Help","Hero","M",1
+"Hero Banner - MoA","Hero","M",1
+"Hero Banner - Efficacy","Hero","M",1
+"Hero Banner - Patient Stories","Hero","M",1
+"Hero Banner - Disease Education","Hero","M",1
+"Hero Banner - Side Effects","Hero","M",1
+"Hero Banner - Dosing","Hero","M",1
+"Hero Banner - Dosing Instructions","Hero","M",1
+"Hero Banner - Resources","Hero","M",1
+"Hero Banner - Conversation Guide","Hero","M",1
+"Hero Banner - Sign Up","Hero","M",1
+"Hero Banner - Find HCP","Hero","M",1
+"Accordion Block","Accordion","M",3
+"Section Navigation","Section Navigation","S",1
+"Background Container","Columns","S",2
+"Columns Layout","Columns","M",5
+"Image Text V2","Image Text V2","M",2
+"Video Player","Video","M",1
+"Patient Story Card - Video","Video","C",1
+"Rich Text Block","Rich Text","S",1
+"Titles","Titles","S",1
+"CTA Button","CTA","S",1
+"Actions Block","CTA","S",1
+"References Section","Rich Text","S",1
+"Contact Form","Form","C",2
+"HCP Finder Tool","Form","C",1
+"Exit Site Modal","Modal","S",1
+"Modal - HCP Gate","Modal","S",1
+"Footer","Footer","S",1

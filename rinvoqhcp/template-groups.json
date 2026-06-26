@@ -1,0 +1,158 @@
+{
+  "baseUrl": "https://www.rinvoqhcp.com",
+  "totalTemplates": 14,
+  "templates": [
+    {
+      "templateId": "T01",
+      "label": "Homepage",
+      "representativeUrl": "https://www.rinvoqhcp.com",
+      "pageCount": 1,
+      "urls": ["https://www.rinvoqhcp.com"]
+    },
+    {
+      "templateId": "T02",
+      "label": "Specialty Hub Landing",
+      "representativeUrl": "https://www.rinvoqhcp.com/rheumatology",
+      "pageCount": 3,
+      "urls": [
+        "https://www.rinvoqhcp.com/rheumatology",
+        "https://www.rinvoqhcp.com/dermatology",
+        "https://www.rinvoqhcp.com/gastroenterology"
+      ]
+    },
+    {
+      "templateId": "T03",
+      "label": "Condition Landing",
+      "representativeUrl": "https://www.rinvoqhcp.com/atopic-dermatitis",
+      "pageCount": 8,
+      "urls": [
+        "https://www.rinvoqhcp.com/atopic-dermatitis",
+        "https://www.rinvoqhcp.com/psoriatic-arthritis",
+        "https://www.rinvoqhcp.com/rheumatoid-arthritis",
+        "https://www.rinvoqhcp.com/ankylosing-spondylitis",
+        "https://www.rinvoqhcp.com/non-radiographic-axial-spondyloarthritis",
+        "https://www.rinvoqhcp.com/ulcerative-colitis",
+        "https://www.rinvoqhcp.com/crohns-disease",
+        "https://www.rinvoqhcp.com/giant-cell-arteritis"
+      ]
+    },
+    {
+      "templateId": "T04",
+      "label": "Efficacy (Clinical Data)",
+      "representativeUrl": "https://www.rinvoqhcp.com/atopic-dermatitis/efficacy",
+      "pageCount": 8,
+      "urls": [
+        "https://www.rinvoqhcp.com/atopic-dermatitis/efficacy",
+        "https://www.rinvoqhcp.com/rheumatoid-arthritis/efficacy",
+        "https://www.rinvoqhcp.com/psoriatic-arthritis/efficacy",
+        "https://www.rinvoqhcp.com/ankylosing-spondylitis/efficacy",
+        "https://www.rinvoqhcp.com/non-radiographic-axial-spondyloarthritis/efficacy",
+        "https://www.rinvoqhcp.com/ulcerative-colitis/efficacy",
+        "https://www.rinvoqhcp.com/crohns-disease/efficacy",
+        "https://www.rinvoqhcp.com/giant-cell-arteritis/efficacy"
+      ]
+    },
+    {
+      "templateId": "T05",
+      "label": "Head-to-Head Comparison",
+      "representativeUrl": "https://www.rinvoqhcp.com/atopic-dermatitis/efficacy/rinvoq-vs-dupixent/level-up",
+      "pageCount": 1,
+      "urls": [
+        "https://www.rinvoqhcp.com/atopic-dermatitis/efficacy/rinvoq-vs-dupixent/level-up"
+      ]
+    },
+    {
+      "templateId": "T06",
+      "label": "Safety Information",
+      "representativeUrl": "https://www.rinvoqhcp.com/rheumatology/safety",
+      "pageCount": 3,
+      "urls": [
+        "https://www.rinvoqhcp.com/rheumatology/safety",
+        "https://www.rinvoqhcp.com/dermatology/safety",
+        "https://www.rinvoqhcp.com/gastroenterology/safety"
+      ]
+    },
+    {
+      "templateId": "T07",
+      "label": "Dosing & Lab Monitoring",
+      "representativeUrl": "https://www.rinvoqhcp.com/rheumatology/dosing-lab-monitoring",
+      "pageCount": 3,
+      "urls": [
+        "https://www.rinvoqhcp.com/rheumatology/dosing-lab-monitoring",
+        "https://www.rinvoqhcp.com/dermatology/dosing-lab-monitoring",
+        "https://www.rinvoqhcp.com/gastroenterology/dosing-lab-monitoring"
+      ]
+    },
+    {
+      "templateId": "T08",
+      "label": "Access & Reimbursement",
+      "representativeUrl": "https://www.rinvoqhcp.com/rheumatology/access",
+      "pageCount": 3,
+      "urls": [
+        "https://www.rinvoqhcp.com/rheumatology/access",
+        "https://www.rinvoqhcp.com/dermatology/access",
+        "https://www.rinvoqhcp.com/gastroenterology/access"
+      ]
+    },
+    {
+      "templateId": "T09",
+      "label": "Mechanism of Action",
+      "representativeUrl": "https://www.rinvoqhcp.com/mechanism-of-action",
+      "pageCount": 2,
+      "urls": [
+        "https://www.rinvoqhcp.com/mechanism-of-action",
+        "https://www.rinvoqhcp.com/atopic-dermatitis/mechanism-of-action"
+      ]
+    },
+    {
+      "templateId": "T10",
+      "label": "Real Patients",
+      "representativeUrl": "https://www.rinvoqhcp.com/atopic-dermatitis/real-patients",
+      "pageCount": 1,
+      "urls": [
+        "https://www.rinvoqhcp.com/atopic-dermatitis/real-patients"
+      ]
+    },
+    {
+      "templateId": "T11",
+      "label": "Expert Insights",
+      "representativeUrl": "https://www.rinvoqhcp.com/gastroenterology/expert-insights",
+      "pageCount": 1,
+      "urls": [
+        "https://www.rinvoqhcp.com/gastroenterology/expert-insights"
+      ]
+    },
+    {
+      "templateId": "T12",
+      "label": "Resources & Support",
+      "representativeUrl": "https://www.rinvoqhcp.com/resources",
+      "pageCount": 2,
+      "urls": [
+        "https://www.rinvoqhcp.com/resources",
+        "https://www.rinvoqhcp.com/patient-support"
+      ]
+    },
+    {
+      "templateId": "T13",
+      "label": "Contact a Rep",
+      "representativeUrl": "https://www.rinvoqhcp.com/contact-a-rep",
+      "pageCount": 1,
+      "urls": [
+        "https://www.rinvoqhcp.com/contact-a-rep"
+      ]
+    },
+    {
+      "templateId": "T14",
+      "label": "Utility / Redirect",
+      "representativeUrl": "https://www.rinvoqhcp.com/patientsite",
+      "pageCount": 5,
+      "urls": [
+        "https://www.rinvoqhcp.com/patientsite",
+        "https://www.rinvoqhcp.com/prescribinginfo",
+        "https://www.rinvoqhcp.com/site-map",
+        "https://www.rinvoqhcp.com/axspa",
+        "https://www.rinvoqhcp.com/rheumatoid-arthritis/efficacy/rinvoq-vs-humira/select-switch-study"
+      ]
+    }
+  ]
+}

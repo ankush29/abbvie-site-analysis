@@ -1,0 +1,165 @@
+{
+  "baseUrl": "https://www.venclexta.com",
+  "totalTemplates": 14,
+  "templates": [
+    {
+      "templateId": "T01",
+      "label": "Homepage",
+      "representativeUrl": "https://www.venclexta.com",
+      "pageCount": 1,
+      "urls": ["https://www.venclexta.com"]
+    },
+    {
+      "templateId": "T02",
+      "label": "Indication Hub",
+      "representativeUrl": "https://www.venclexta.com/previously-untreated-cll",
+      "pageCount": 3,
+      "urls": [
+        "https://www.venclexta.com/previously-untreated-cll",
+        "https://www.venclexta.com/previously-treated-cll",
+        "https://www.venclexta.com/aml"
+      ]
+    },
+    {
+      "templateId": "T03",
+      "label": "How It May Help",
+      "representativeUrl": "https://www.venclexta.com/previously-untreated-cll/why-venclexta/how-it-may-help",
+      "pageCount": 3,
+      "urls": [
+        "https://www.venclexta.com/previously-untreated-cll/why-venclexta/how-it-may-help",
+        "https://www.venclexta.com/previously-treated-cll/why-venclexta/how-it-may-help",
+        "https://www.venclexta.com/aml/why-venclexta/what-is-venclexta"
+      ]
+    },
+    {
+      "templateId": "T04",
+      "label": "How It Works (MoA)",
+      "representativeUrl": "https://www.venclexta.com/previously-untreated-cll/why-venclexta/how-it-works",
+      "pageCount": 2,
+      "urls": [
+        "https://www.venclexta.com/previously-untreated-cll/why-venclexta/how-it-works",
+        "https://www.venclexta.com/previously-treated-cll/why-venclexta/how-it-works"
+      ]
+    },
+    {
+      "templateId": "T05",
+      "label": "Efficacy / Combination Regimens",
+      "representativeUrl": "https://www.venclexta.com/aml/why-venclexta/venclexta-azacitidine",
+      "pageCount": 5,
+      "urls": [
+        "https://www.venclexta.com/previously-untreated-cll/why-venclexta/how-its-different",
+        "https://www.venclexta.com/previously-treated-cll/why-venclexta/how-its-different",
+        "https://www.venclexta.com/aml/why-venclexta/venclexta-azacitidine",
+        "https://www.venclexta.com/aml/why-venclexta/venclexta-decitabine",
+        "https://www.venclexta.com/aml/why-venclexta/venclexta-low-dose-cytarabine"
+      ]
+    },
+    {
+      "templateId": "T06",
+      "label": "Patient Stories",
+      "representativeUrl": "https://www.venclexta.com/previously-untreated-cll/why-venclexta/cll-stories",
+      "pageCount": 2,
+      "urls": [
+        "https://www.venclexta.com/previously-untreated-cll/why-venclexta/cll-stories",
+        "https://www.venclexta.com/previously-treated-cll/why-venclexta/cll-stories"
+      ]
+    },
+    {
+      "templateId": "T07",
+      "label": "About the Disease",
+      "representativeUrl": "https://www.venclexta.com/previously-untreated-cll/about-cll-sll/what-is-cll-sll",
+      "pageCount": 8,
+      "urls": [
+        "https://www.venclexta.com/previously-untreated-cll/about-cll-sll/what-is-cll-sll",
+        "https://www.venclexta.com/previously-untreated-cll/about-cll-sll/diagnosis-information",
+        "https://www.venclexta.com/previously-untreated-cll/about-cll-sll/treatment-options",
+        "https://www.venclexta.com/previously-treated-cll/about-cll-sll/what-is-cll-sll",
+        "https://www.venclexta.com/previously-treated-cll/about-cll-sll/diagnosis-information",
+        "https://www.venclexta.com/previously-treated-cll/about-cll-sll/treatment-options",
+        "https://www.venclexta.com/aml/about-aml/what-is-aml",
+        "https://www.venclexta.com/aml/about-aml/treatment-options"
+      ]
+    },
+    {
+      "templateId": "T08",
+      "label": "Side Effects",
+      "representativeUrl": "https://www.venclexta.com/previously-untreated-cll/possible-side-effects",
+      "pageCount": 3,
+      "urls": [
+        "https://www.venclexta.com/previously-untreated-cll/possible-side-effects",
+        "https://www.venclexta.com/previously-treated-cll/possible-side-effects",
+        "https://www.venclexta.com/aml/possible-side-effects"
+      ]
+    },
+    {
+      "templateId": "T09",
+      "label": "Dosing Schedule",
+      "representativeUrl": "https://www.venclexta.com/previously-untreated-cll/taking-venclexta/dosing-schedule",
+      "pageCount": 3,
+      "urls": [
+        "https://www.venclexta.com/previously-untreated-cll/taking-venclexta/dosing-schedule",
+        "https://www.venclexta.com/previously-treated-cll/taking-venclexta/dosing-schedule",
+        "https://www.venclexta.com/aml/taking-venclexta/dosing-schedule"
+      ]
+    },
+    {
+      "templateId": "T10",
+      "label": "Dosing Instructions",
+      "representativeUrl": "https://www.venclexta.com/previously-untreated-cll/taking-venclexta/dosing-instructions",
+      "pageCount": 3,
+      "urls": [
+        "https://www.venclexta.com/previously-untreated-cll/taking-venclexta/dosing-instructions",
+        "https://www.venclexta.com/previously-treated-cll/taking-venclexta/dosing-instructions",
+        "https://www.venclexta.com/aml/taking-venclexta/dosing-instructions"
+      ]
+    },
+    {
+      "templateId": "T11",
+      "label": "Resources & Support",
+      "representativeUrl": "https://www.venclexta.com/previously-untreated-cll/resources-and-support/helpful-resources-and-materials",
+      "pageCount": 6,
+      "urls": [
+        "https://www.venclexta.com/previously-untreated-cll/resources-and-support/helpful-resources-and-materials",
+        "https://www.venclexta.com/previously-untreated-cll/resources-and-support/financial-and-treatment-support",
+        "https://www.venclexta.com/previously-treated-cll/resources-and-support/helpful-resources-and-materials",
+        "https://www.venclexta.com/previously-treated-cll/resources-and-support/financial-and-treatment-support",
+        "https://www.venclexta.com/aml/resources-and-support/helpful-resources-and-materials",
+        "https://www.venclexta.com/aml/resources-and-support/financial-and-treatment-support"
+      ]
+    },
+    {
+      "templateId": "T12",
+      "label": "Conversation Guide",
+      "representativeUrl": "https://www.venclexta.com/conversation-guide",
+      "pageCount": 3,
+      "urls": [
+        "https://www.venclexta.com/conversation-guide",
+        "https://www.venclexta.com/previously-untreated-cll/conversation-guide",
+        "https://www.venclexta.com/previously-treated-cll/conversation-guide"
+      ]
+    },
+    {
+      "templateId": "T13",
+      "label": "VEN Zone Sign-Up",
+      "representativeUrl": "https://www.venclexta.com/previously-untreated-cll/ven-zone-signup",
+      "pageCount": 2,
+      "urls": [
+        "https://www.venclexta.com/previously-untreated-cll/ven-zone-signup",
+        "https://www.venclexta.com/previously-treated-cll/ven-zone-signup"
+      ]
+    },
+    {
+      "templateId": "T14",
+      "label": "Find HCP / Utility",
+      "representativeUrl": "https://www.venclexta.com/previously-untreated-cll/find-a-healthcare-provider",
+      "pageCount": 5,
+      "urls": [
+        "https://www.venclexta.com/previously-untreated-cll/find-a-healthcare-provider",
+        "https://www.venclexta.com/previously-treated-cll/find-a-healthcare-provider",
+        "https://www.venclexta.com/search-results",
+        "https://www.venclexta.com/terms-and-conditions",
+        "https://www.venclexta.com/site-map"
+      ]
+    }
+  ]
+}

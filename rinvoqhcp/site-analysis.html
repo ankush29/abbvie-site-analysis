@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Site analysis</title>
+  <style>
+    html {
+      --radius: 12px;
+      --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    html[data-theme="dark"] {
+      --bg: #0f1419;
+      --surface: #1a2332;
+      --border: #2d3a4d;
+      --text: #e8eef7;
+      --muted: #9aa8bc;
+      --accent: #3d8bfd;
+      --danger: #f87171;
+      --media-bg: #0b0f14;
+      --chip-muted-bg: #243044;
+      --code-bg: #243044;
+      color-scheme: dark;
+    }
+
+    html[data-theme="light"] {
+      --bg: #f0f3f8;
+      --surface: #fff;
+      --border: #c8d2e0;
+      --text: #15202b;
+      --muted: #4a5d72;
+      --accent: #0b57d0;
+      --danger: #b91c1c;
+      --media-bg: #e8ecf3;
+      --chip-muted-bg: #e4eaf3;
+      --code-bg: #e8ecf3;
+      color-scheme: light;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .page { max-width: 1200px; margin: 0 auto; padding: 24px 20px 80px; }
+
+    header.page-head { margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+    header.page-head h1 { margin: 0 0 8px; font-size: 1.5rem; font-weight: 650; letter-spacing: -0.02em; }
+    header.page-head p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+    header.page-head code { font-size: 0.88em; padding: 0.1em 0.35em; border-radius: 6px; background: var(--code-bg); border: 1px solid var(--border); }
+
+    .page-head-row { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 16px 24px; }
+    .page-head-titles { flex: 1 1 240px; min-width: 0; }
+
+    .theme-switch { display: flex; flex-shrink: 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--surface); }
+    .theme-switch .theme-btn { margin: 0; padding: 10px 12px; font: inherit; border: none; background: transparent; color: var(--muted); cursor: pointer; min-width: 2.75rem; min-height: 2.75rem; display: inline-flex; align-items: center; justify-content: center; }
+    .theme-switch .theme-btn svg { width: 1.35rem; height: 1.35rem; flex-shrink: 0; pointer-events: none; }
+    .theme-switch .theme-btn:hover { color: var(--text); background: var(--media-bg); }
+    .theme-switch .theme-btn.is-active { color: var(--text); background: var(--media-bg); box-shadow: inset 0 -2px 0 var(--accent); }
+    .theme-switch .theme-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+    .toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 8px; }
+    .toolbar label { display: flex; flex-direction: column; gap: 6px; font-size: 0.8rem; color: var(--muted); flex: 1 1 220px; min-width: 180px; }
+    .toolbar input[type="search"] { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font: inherit; }
+    .toolbar input[type="search"]::placeholder { color: var(--muted); }
+
+    .meta { font-size: 0.85rem; color: var(--muted); }
+
+    .alert { padding: 14px 16px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); color: var(--muted); margin-bottom: 20px; }
+    .alert strong { color: var(--text); }
+
+    .ai-disclaimer { margin: 40px 0 0; padding: 0; font-size: 0.72rem; line-height: 1.45; color: var(--muted); opacity: 0.72; }
+    .ai-disclaimer strong { font-weight: 500; color: inherit; }
+
+    .section-title { margin: 28px 0 6px; font-size: 1.1rem; font-weight: 650; color: var(--text); letter-spacing: -0.02em; }
+    .section-title:first-of-type { margin-top: 12px; }
+
+    .section-lead { margin: 0 0 16px; font-size: 0.9rem; color: var(--muted); max-width: 72ch; }
+    .section-lead code { font-size: 0.88em; padding: 0.1em 0.35em; border-radius: 6px; background: var(--code-bg); border: 1px solid var(--border); }
+
+    .cards { display: flex; flex-direction: column; gap: 28px; }
+
+    article.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; display: grid; grid-template-columns: 1fr; }
+    @media (min-width: 900px) { article.card { grid-template-columns: minmax(280px, 1fr) minmax(0, 1.1fr); } }
+
+    .card-media { background: var(--media-bg); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: center; min-height: 200px; }
+    @media (min-width: 900px) { .card-media { border-bottom: none; border-right: 1px solid var(--border); min-height: 280px; } }
+
+    .card-media img { width: 100%; height: auto; max-height: 520px; object-fit: contain; display: block; }
+
+    article.card--template .card-media { align-items: flex-start; justify-content: stretch; max-height: min(88vh, 2200px); overflow-y: auto; overflow-x: hidden; }
+    article.card--template .card-media img { max-height: none; }
+
+    .card-media .missing { padding: 32px 20px; text-align: center; color: var(--danger); font-size: 0.9rem; }
+
+    .card-body { padding: 20px 22px 22px; }
+    .card-body h2 { margin: 0 0 10px; font-size: 1.15rem; font-weight: 650; line-height: 1.3; }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .chip { font-size: 0.75rem; padding: 4px 10px; border-radius: 999px; background: var(--chip-muted-bg); color: var(--muted); border: 1px solid var(--border); }
+
+    html[data-theme="dark"] .chip.size-s { color: #86efac; border-color: #166534; background: #14532d22; }
+    html[data-theme="dark"] .chip.size-m { color: #fde047; border-color: #854d0e; background: #713f1222; }
+    html[data-theme="dark"] .chip.size-c { color: #fdba74; border-color: #9a3412; background: #7c2d1222; }
+    html[data-theme="light"] .chip.size-s { color: #166534; border-color: #86efac; background: #dcfce7; }
+    html[data-theme="light"] .chip.size-m { color: #854d0e; border-color: #eab308; background: #fef9c3; }
+    html[data-theme="light"] .chip.size-c { color: #9a3412; border-color: #fb923c; background: #ffedd5; }
+
+    .desc { margin: 0 0 14px; color: var(--text); font-size: 0.95rem; }
+
+    dl.meta-grid { margin: 0; display: grid; gap: 10px 16px; grid-template-columns: 1fr; font-size: 0.85rem; }
+    @media (min-width: 600px) { dl.meta-grid { grid-template-columns: 140px 1fr; } }
+    dl.meta-grid dt { margin: 0; color: var(--muted); font-weight: 500; }
+    dl.meta-grid dd { margin: 0; color: var(--text); }
+    dl.meta-grid a { color: var(--accent); word-break: break-all; }
+
+    .tabs { display: flex; flex-wrap: wrap; gap: 4px; margin: 0 0 4px; border-bottom: 1px solid var(--border); }
+    .tabs button[role="tab"] { margin: 0; padding: 10px 18px; font: inherit; font-size: 0.9rem; font-weight: 600; color: var(--muted); background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; border-radius: 8px 8px 0 0; }
+    .tabs button[role="tab"]:hover { color: var(--text); background: var(--media-bg); }
+    .tabs button[role="tab"][aria-selected="true"] { color: var(--text); border-bottom-color: var(--accent); background: var(--surface); }
+    .tabs button[role="tab"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    .tab-panel { padding: 20px 0 0; }
+    .tab-panel[hidden] { display: none !important; }
+
+    .dash-stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin-bottom: 24px; }
+    .stat { padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+    .stat-label { display: block; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); margin-bottom: 6px; }
+    .stat a { color: var(--accent); word-break: break-all; font-size: 0.9rem; }
+    .stat strong { font-size: 1.25rem; font-weight: 700; }
+
+    .analysis-prose { font-size: 0.92rem; line-height: 1.6; max-width: 92ch; margin: 0; padding: 20px 22px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text); }
+    .analysis-prose.md-preview { white-space: normal; }
+    .md-preview > :first-child { margin-top: 0; }
+    .md-preview > :last-child { margin-bottom: 0; }
+    .md-preview h1, .md-preview h2, .md-preview h3, .md-preview h4 { font-weight: 650; letter-spacing: -0.02em; line-height: 1.25; margin: 1.35em 0 0.5em; color: var(--text); }
+    .md-preview h1 { font-size: 1.35rem; border-bottom: 1px solid var(--border); padding-bottom: 0.35em; }
+    .md-preview h2 { font-size: 1.15rem; }
+    .md-preview h3 { font-size: 1.02rem; }
+    .md-preview h4 { font-size: 0.95rem; }
+    .md-preview p { margin: 0.65em 0; }
+    .md-preview a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+    .md-preview ul, .md-preview ol { margin: 0.65em 0; padding-left: 1.35em; }
+    .md-preview li { margin: 0.25em 0; }
+    .md-preview code { font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace; font-size: 0.86em; padding: 0.12em 0.4em; border-radius: 6px; background: var(--code-bg); border: 1px solid var(--border); }
+    .md-preview pre { margin: 0.85em 0; padding: 14px 16px; overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); background: var(--media-bg); font-size: 0.82rem; line-height: 1.45; }
+    .md-preview pre code { padding: 0; border: none; background: transparent; font-size: inherit; }
+    .md-preview blockquote { margin: 0.85em 0; padding: 0.35em 0 0.35em 1em; border-left: 3px solid var(--accent); color: var(--muted); }
+    .md-preview hr { border: none; border-top: 1px solid var(--border); margin: 1.5em 0; }
+    .analysis-prose.is-plain-fallback { white-space: pre-wrap; font-family: ui-monospace, "Cascadia Code", Menlo, Consolas, monospace; font-size: 0.82rem; }
+    .md-preview table { width: 100%; border-collapse: collapse; margin: 1em 0; font-size: 0.82rem; display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .md-preview thead { background: var(--media-bg); }
+    .md-preview th, .md-preview td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+    .md-preview th { font-weight: 600; white-space: nowrap; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="page-head">
+      <div class="page-head-row">
+        <div class="page-head-titles">
+          <h1 id="page-title">Site analysis</h1>
+          <p id="page-subtitle">Interactive dashboard for the analysed storefront: summary, UI block inventory, and semantic page templates.</p>
+        </div>
+        <div class="theme-switch" role="group" aria-label="Color theme">
+          <button type="button" class="theme-btn" id="theme-dark" aria-pressed="true" aria-label="Dark theme" title="Dark theme">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
+          </button>
+          <button type="button" class="theme-btn" id="theme-light" aria-pressed="false" aria-label="Light theme" title="Light theme">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" /></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="tabs" role="tablist" aria-label="Site analysis dashboard">
+      <button type="button" role="tab" id="tab-overview" aria-selected="true" aria-controls="panel-overview">Overview</button>
+      <button type="button" role="tab" id="tab-blocks" aria-selected="false" aria-controls="panel-blocks" tabindex="-1">Blocks</button>
+      <button type="button" role="tab" id="tab-templates" aria-selected="false" aria-controls="panel-templates" tabindex="-1">Templates</button>
+    </div>
+
+    <div id="panel-overview" role="tabpanel" aria-labelledby="tab-overview" class="tab-panel">
+      <div id="overview-stats" class="dash-stats" hidden>
+        <div class="stat"><span class="stat-label">Analysed site</span><a id="stat-site-url" href="#" target="_blank" rel="noopener noreferrer">—</a></div>
+        <div class="stat"><span class="stat-label">Semantic templates</span><strong id="stat-templates">—</strong></div>
+        <div class="stat"><span class="stat-label">UI components (CSV rows)</span><strong id="stat-blocks">—</strong></div>
+      </div>
+      <div id="overview-tg-error" class="alert" hidden><strong>Could not load <code>template-groups.json</code>.</strong> Stats will be incomplete until this file is available over HTTP.</div>
+      <div id="overview-md-error" class="alert" hidden><strong>Could not load <code>analysis-summary.md</code>.</strong></div>
+      <div id="overview-body" class="analysis-prose md-preview" aria-label="Analysis summary (rendered from Markdown)">Loading summary…</div>
+    </div>
+
+    <div id="panel-blocks" role="tabpanel" aria-labelledby="tab-blocks" class="tab-panel" hidden>
+      <div id="load-error" class="alert" hidden>
+        <strong>Could not load the CSV.</strong> Open this file through a local web server (e.g. <code>npx -y serve . -p 4173</code>), because browsers block <code>fetch</code> on <code>file://</code>.
+      </div>
+      <h2 class="section-title">Block-level UI</h2>
+      <p class="section-lead">Each card matches one row in <code>eds-blocks-analysis.csv</code>. Image file: <code>screenshots/blocks/&lt;UI Component Name&gt;.png</code>.</p>
+      <div class="toolbar">
+        <label>Filter<input type="search" id="filter" placeholder="Search name, URL, block, description…" autocomplete="off" /></label>
+        <span class="meta" id="count"></span>
+      </div>
+      <section class="cards" id="cards" aria-live="polite"></section>
+    </div>
+
+    <div id="panel-templates" role="tabpanel" aria-labelledby="tab-templates" class="tab-panel" hidden>
+      <h2 class="section-title" id="templates-heading">Semantic templates</h2>
+      <p class="section-lead">Full-page screenshot of each template's <code>representativeUrl</code> in <code>template-groups.json</code>. Files: <code>screenshots/templates/&lt;templateId&gt;.png</code>.</p>
+      <div id="templates-error" class="alert" hidden><strong>Could not load <code>template-groups.json</code> for template cards.</strong></div>
+      <section class="cards" id="template-cards" aria-live="polite" aria-labelledby="templates-heading"></section>
+    </div>
+
+    <p class="ai-disclaimer" role="note"><strong>AI-generated report.</strong> This analysis is produced by an AI-driven pipeline. While we strive for accuracy, results may occasionally be incomplete or imperfect — review findings before acting on them.</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js" crossorigin="anonymous"></script>
+  <script>
+    const CSV_URL = new URL('./eds-blocks-analysis.csv', window.location.href);
+    const TEMPLATE_GROUPS_URL = new URL('./template-groups.json', window.location.href);
+    const SUMMARY_MD_URL = new URL('./analysis-summary.md', window.location.href);
+    const BLOCK_SCREENSHOT_BASE = new URL('./screenshots/blocks/', window.location.href);
+    const TEMPLATE_SCREENSHOT_BASE = new URL('./screenshots/templates/', window.location.href);
+    const THEME_KEY = 'site-analysis-theme';
+
+    function initTabs() {
+      const tablist = document.querySelector('[role="tablist"]');
+      if (!tablist) return;
+      const tabs = [...tablist.querySelectorAll('[role="tab"]')];
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          tabs.forEach((t) => {
+            const selected = t === tab;
+            t.setAttribute('aria-selected', selected ? 'true' : 'false');
+            t.tabIndex = selected ? 0 : -1;
+            const panel = document.getElementById(t.getAttribute('aria-controls'));
+            if (panel) panel.hidden = !selected;
+          });
+        });
+      });
+    }
+
+    async function loadOverview() {
+      const bodyEl = document.getElementById('overview-body');
+      const mdErr = document.getElementById('overview-md-error');
+      const tgErr = document.getElementById('overview-tg-error');
+      const statsEl = document.getElementById('overview-stats');
+      const titleEl = document.getElementById('page-title');
+      let tgData = null;
+      try {
+        const r = await fetch(TEMPLATE_GROUPS_URL.href, { cache: 'no-store' });
+        if (!r.ok) throw new Error();
+        tgData = await r.json();
+        tgErr.hidden = true;
+      } catch (_) { tgErr.hidden = false; }
+      if (tgData) {
+        const base = tgData.baseUrl || '';
+        try { if (base) { const {hostname} = new URL(base); const l = `Site analysis: ${hostname}`; titleEl.textContent = l; document.title = l; } } catch (_) {}
+        const link = document.getElementById('stat-site-url');
+        if (link && base) { link.href = base; link.textContent = base; }
+        const tc = tgData.totalTemplates != null ? tgData.totalTemplates : (Array.isArray(tgData.templates) ? tgData.templates.length : '—');
+        const st = document.getElementById('stat-templates');
+        if (st) st.textContent = String(tc);
+        if (statsEl) statsEl.hidden = false;
+      }
+      try {
+        const r = await fetch(SUMMARY_MD_URL.href, { cache: 'no-store' });
+        if (!r.ok) throw new Error();
+        const txt = await r.text();
+        if (!txt.trim()) { bodyEl.textContent = '(Empty summary file.)'; }
+        else if (typeof marked !== 'undefined' && typeof DOMPurify !== 'undefined') { bodyEl.classList.remove('is-plain-fallback'); bodyEl.innerHTML = DOMPurify.sanitize(marked.parse(txt)); }
+        else { bodyEl.classList.add('is-plain-fallback'); bodyEl.textContent = txt; }
+        mdErr.hidden = true;
+      } catch (_) { bodyEl.textContent = ''; mdErr.hidden = false; }
+    }
+
+    function getStoredTheme() { try { const v = localStorage.getItem(THEME_KEY); if (v === 'light' || v === 'dark') return v; } catch (_) {} return 'dark'; }
+    function setTheme(theme) {
+      const t = theme === 'light' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      try { localStorage.setItem(THEME_KEY, t); } catch (_) {}
+      const bd = document.getElementById('theme-dark'), bl = document.getElementById('theme-light');
+      if (bd && bl) { bd.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false'); bl.setAttribute('aria-pressed', t === 'light' ? 'true' : 'false'); bd.classList.toggle('is-active', t === 'dark'); bl.classList.toggle('is-active', t === 'light'); }
+    }
+    function initTheme() { setTheme(getStoredTheme()); document.getElementById('theme-dark')?.addEventListener('click', () => setTheme('dark')); document.getElementById('theme-light')?.addEventListener('click', () => setTheme('light')); }
+
+    function parseCsv(text) {
+      const rows = []; let row = [], field = '', inQuotes = false;
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i], next = text[i+1];
+        if (inQuotes) { if (c === '"' && next === '"') { field += '"'; i++; } else if (c === '"') { inQuotes = false; } else { field += c; } }
+        else if (c === '"') { inQuotes = true; }
+        else if (c === ',') { row.push(field); field = ''; }
+        else if (c === '\r') {}
+        else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+        else { field += c; }
+      }
+      row.push(field); if (row.length > 1 || (row.length === 1 && row[0] !== '')) rows.push(row);
+      return rows;
+    }
+
+    function sizeClass(s) { const u = String(s||'').trim().toUpperCase(); if (u==='S') return 'size-s'; if (u==='M') return 'size-m'; if (u==='C') return 'size-c'; return ''; }
+    function rowToObject(headers, cells) { const o={}; headers.forEach((h,i) => { o[h]=cells[i]??''; }); return o; }
+
+    function renderCard(block) {
+      const name = block['UI Component Name'] || 'Untitled';
+      const article = document.createElement('article'); article.className = 'card';
+      const media = document.createElement('div'); media.className = 'card-media';
+      const img = document.createElement('img');
+      img.src = new URL(encodeURIComponent(name+'.png'), BLOCK_SCREENSHOT_BASE).href;
+      img.alt = `Screenshot: ${name}`; img.loading = 'lazy';
+      img.addEventListener('error', () => { img.remove(); const m=document.createElement('div'); m.className='missing'; m.textContent=`No image: screenshots/blocks/${name}.png`; media.appendChild(m); }, {once:true});
+      media.appendChild(img);
+      const body = document.createElement('div'); body.className = 'card-body';
+      const h2 = document.createElement('h2'); h2.textContent = name; body.appendChild(h2);
+      const chips = document.createElement('div'); chips.className = 'chips';
+      const addChip = (txt, cls='') => { if(!txt) return; const c=document.createElement('span'); c.className=`chip ${cls}`.trim(); c.textContent=txt; chips.appendChild(c); };
+      addChip(block['Source block name']); addChip(block['Variation type']); addChip(block['Tshirt Sizing'] ? `Size ${block['Tshirt Sizing']}` : '', sizeClass(block['Tshirt Sizing'])); addChip(block['Number of occurrences'] ? `${block['Number of occurrences']}×` : '');
+      body.appendChild(chips);
+      if (block['Function description']) { const p=document.createElement('p'); p.className='desc'; p.textContent=block['Function description']; body.appendChild(p); }
+      const dl = document.createElement('dl'); dl.className = 'meta-grid';
+      const addRow = (label, val, isLink) => { if(!val) return; const dt=document.createElement('dt'); dt.textContent=label; const dd=document.createElement('dd'); if(isLink){const a=document.createElement('a');a.href=val;a.target='_blank';a.rel='noopener noreferrer';a.textContent=val;dd.appendChild(a);}else{dd.textContent=val;} dl.appendChild(dt); dl.appendChild(dd); };
+      addRow('Page title', block['Page Title']); addRow('Page URL', block['Page URL'], true); addRow('Variation', block['Variation description']); addRow('Complexity', block['Complexity justification']); addRow('Remarks', block['Other remarks']);
+      body.appendChild(dl); article.appendChild(media); article.appendChild(body); return article;
+    }
+
+    function renderTemplateCard(t) {
+      const id = t.templateId || 'unknown';
+      const article = document.createElement('article'); article.className = 'card card--template';
+      const media = document.createElement('div'); media.className = 'card-media';
+      const img = document.createElement('img');
+      img.src = new URL(encodeURIComponent(id+'.png'), TEMPLATE_SCREENSHOT_BASE).href;
+      img.alt = `Template: ${id}`; img.loading = 'lazy';
+      img.addEventListener('error', () => { img.remove(); const m=document.createElement('div'); m.className='missing'; m.textContent=`No image: screenshots/templates/${id}.png`; media.appendChild(m); }, {once:true});
+      media.appendChild(img);
+      const body = document.createElement('div'); body.className = 'card-body';
+      const h2 = document.createElement('h2'); h2.textContent = id; body.appendChild(h2);
+      const chips = document.createElement('div'); chips.className = 'chips';
+      const c1 = document.createElement('span'); c1.className='chip'; c1.textContent=`${t.pageCount||'?'} pages`; chips.appendChild(c1);
+      body.appendChild(chips);
+      if (t.label) { const p=document.createElement('p'); p.className='desc'; p.textContent=t.label; body.appendChild(p); }
+      const dl = document.createElement('dl'); dl.className='meta-grid';
+      if (t.representativeUrl) { const dt=document.createElement('dt'); dt.textContent='Representative URL'; const dd=document.createElement('dd'); const a=document.createElement('a'); a.href=t.representativeUrl; a.target='_blank'; a.rel='noopener noreferrer'; a.textContent=t.representativeUrl; dd.appendChild(a); dl.appendChild(dt); dl.appendChild(dd); }
+      body.appendChild(dl); article.appendChild(media); article.appendChild(body); return article;
+    }
+
+    async function loadTemplates() {
+      const container = document.getElementById('template-cards'); container.replaceChildren();
+      try { const r=await fetch(TEMPLATE_GROUPS_URL.href,{cache:'no-store'}); if(!r.ok) throw new Error(); const data=await r.json(); (data.templates||[]).forEach(t=>container.appendChild(renderTemplateCard(t))); }
+      catch (_) { document.getElementById('templates-error').hidden=false; }
+    }
+
+    let allBlocks = [];
+    function applyFilter(q) {
+      const needle = q.trim().toLowerCase(); const cardsEl=document.getElementById('cards'); const countEl=document.getElementById('count'); cardsEl.replaceChildren();
+      const filtered = needle ? allBlocks.filter(b=>b._filter.includes(needle)) : allBlocks;
+      filtered.forEach(b=>cardsEl.appendChild(renderCard(b))); countEl.textContent=`${filtered.length} of ${allBlocks.length} components`;
+    }
+
+    async function main() {
+      let text;
+      try { const r=await fetch(CSV_URL.href,{cache:'no-store'}); if(!r.ok) throw new Error(); text=await r.text(); }
+      catch (e) { document.getElementById('load-error').hidden=false; return; }
+      const rows=parseCsv(text).filter(r=>r.some(c=>c.trim()!==''));
+      if (rows.length<2) { document.getElementById('load-error').hidden=false; document.getElementById('load-error').innerHTML='<strong>CSV was empty or invalid.</strong>'; return; }
+      const headers=rows[0].map(h=>h.trim()); const dataRows=rows.slice(1);
+      allBlocks=dataRows.map(cells=>{const o=rowToObject(headers,cells);o._filter=[o['UI Component Name'],o['Page Title'],o['Page URL'],o['Source block name'],o['Variation type'],o['Variation description'],o['Other remarks'],o['Function description'],o['Complexity justification']].join(' ').toLowerCase();return o;});
+      const filterInput=document.getElementById('filter'); filterInput.addEventListener('input',()=>applyFilter(filterInput.value)); applyFilter('');
+      const blkStat=document.getElementById('stat-blocks'); if(blkStat) blkStat.textContent=String(allBlocks.length);
+      const statsEl=document.getElementById('overview-stats'); if(statsEl) statsEl.hidden=false;
+      const siteLink=document.getElementById('stat-site-url');
+      if(siteLink&&(siteLink.textContent==='—'||!siteLink.textContent.trim())){const fu=allBlocks[0]?.['Page URL'];if(fu){try{const u=new URL(fu);siteLink.href=u.origin;siteLink.textContent=u.origin;const l=`Site analysis: ${u.hostname}`;document.getElementById('page-title').textContent=l;document.title=l;}catch(_){}}}
+    }
+
+    async function boot() { await loadOverview(); await main(); await loadTemplates(); }
+    initTabs(); initTheme(); boot();
+  </script>
+</body>
+</html>

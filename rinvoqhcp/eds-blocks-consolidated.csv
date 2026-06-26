@@ -1,0 +1,42 @@
+"Component","Block collection","Complexity","Variations"
+"Header Navigation","Header","M",1
+"Brand Explorer","Brand Explorer","C",1
+"Safety Bar","Safety Bar","C",1
+"Inline ISI / Indication Statement","Safety Bar","C",1
+"Hero Banner - Home","Hero","M",1
+"Hero Banner - Specialty Hub","Hero","M",1
+"Hero Banner - Condition","Hero","M",1
+"Hero Banner - H2H","Hero","M",1
+"Hero Banner - Safety","Hero","M",1
+"Hero Banner - Dosing","Hero","M",1
+"Hero Banner - Access","Hero","M",1
+"Hero Banner - MoA","Hero","M",1
+"Hero Banner - Real Patients","Hero","M",1
+"Hero Banner - Expert Insights","Hero","M",1
+"Hero Banner - Resources","Hero","M",1
+"Hero Banner - Contact","Hero","S",1
+"Tabs Component","Tabs","C",3
+"Accordion Block","Accordion","M",1
+"Section Navigation","Section Navigation","S",1
+"Flexbox Content Section","Columns","M",1
+"Image Text Block","Image Text","M",1
+"Image Text V2","Image Text V2","M",1
+"Interactive Image","Interactive Image","C",1
+"Image Compare Slider","Image Compare Slider","C",1
+"Video Player","Video","M",1
+"Rich Text Block","Rich Text","S",1
+"Titles","Titles","S",1
+"CTA Button","CTA","S",1
+"CTA List","CTA","S",1
+"Section BG Brushstroke","Columns","S",3
+"Featured Section Container","Columns","M",1
+"References Section","Rich Text","S",1
+"Resource Container - Gold","Cards","M",1
+"Affordability Container","Columns","M",1
+"Formulary Container","Table","C",1
+"Gold CTA Callout","CTA","S",1
+"Contact Form Container","Form","C",2
+"Exit Site Modal","Modal","S",1
+"Footnotes & Definitions Modal","Modal","S",1
+"Footer","Footer","S",1
+"Promo Drawer","Promo Drawer","M",1
